@@ -7,12 +7,6 @@ else
 MODULE_NAME = 88x2bu
 endif
 endif
-ifeq ($(CONFIG_PCI_HCI), y)
-MODULE_NAME = 88x2be
-endif
-ifeq ($(CONFIG_SDIO_HCI), y)
-MODULE_NAME = 88x2bs
-endif
 
 ifeq ($(CONFIG_MP_INCLUDED), y)
 ### 8822B Default Enable VHT MP HW TX MODE ###
