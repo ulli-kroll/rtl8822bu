@@ -73,11 +73,6 @@ u8 rtl8822b_phy_init_mac_register(PADAPTER adapter)
 	hal = GET_HAL_DATA(adapter);
 
 	ret = _FALSE;
-#ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
-	res = phy_ConfigMACWithParaFile(adapter, PHY_FILE_MAC_REG);
-	if (_SUCCESS == res)
-		ret = _TRUE;
-#endif /* CONFIG_LOAD_PHY_PARA_FROM_FILE */
 	if (_FALSE == ret) {
 		status = odm_config_mac_with_header_file(&hal->odmpriv);
 		if (HAL_STATUS_SUCCESS == status)
@@ -100,11 +95,6 @@ static u8 _init_bb_reg(PADAPTER Adapter)
 	 * 1. Read PHY_REG.TXT BB INIT!!
 	 */
 	ret = _FALSE;
-#ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
-	res = phy_ConfigBBWithParaFile(Adapter, PHY_FILE_PHY_REG, CONFIG_BB_PHY_REG);
-	if (_SUCCESS == res)
-		ret = _TRUE;
-#endif
 	if (_FALSE == ret) {
 		status = odm_config_bb_with_header_file(&hal->odmpriv, CONFIG_BB_PHY_REG);
 		if (HAL_STATUS_SUCCESS == status)
@@ -122,11 +112,6 @@ static u8 _init_bb_reg(PADAPTER Adapter)
 		 * 1.1 Read PHY_REG_MP.TXT BB INIT!!
 		 */
 		ret = _FALSE;
-#ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
-		res = phy_ConfigBBWithMpParaFile(Adapter, PHY_FILE_PHY_REG_MP);
-		if (_SUCCESS == res)
-			ret = _TRUE;
-#endif
 		if (_FALSE == ret) {
 			status = odm_config_bb_with_header_file(&hal->odmpriv, CONFIG_BB_PHY_REG_MP);
 			if (HAL_STATUS_SUCCESS == status)
@@ -143,11 +128,6 @@ static u8 _init_bb_reg(PADAPTER Adapter)
 	 * 2. Read BB AGC table Initialization
 	 */
 	ret = _FALSE;
-#ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
-	res = phy_ConfigBBWithParaFile(Adapter, PHY_FILE_AGC_TAB, CONFIG_BB_AGC_TAB);
-	if (_SUCCESS == res)
-		ret = _TRUE;
-#endif
 	if (_FALSE == ret) {
 		status = odm_config_bb_with_header_file(&hal->odmpriv, CONFIG_BB_AGC_TAB);
 		if (HAL_STATUS_SUCCESS == status)
@@ -182,9 +162,6 @@ static u8 _init_rf_reg(PADAPTER adapter)
 {
 	u8 path, phydm_path;
 	PHAL_DATA_TYPE hal = GET_HAL_DATA(adapter);
-#ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
-	u8 *regfile;
-#endif
 	enum hal_status status;
 	int res;
 	u8 ret = _TRUE;
@@ -198,16 +175,10 @@ static u8 _init_rf_reg(PADAPTER adapter)
 		switch (path) {
 		case RF_PATH_A:
 			phydm_path = ODM_RF_PATH_A;
-			#ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
-			regfile = PHY_FILE_RADIO_A;
-			#endif
 			break;
 
 		case RF_PATH_B:
 			phydm_path = ODM_RF_PATH_B;
-			#ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
-			regfile = PHY_FILE_RADIO_B;
-			#endif
 			break;
 
 		default:
@@ -216,11 +187,6 @@ static u8 _init_rf_reg(PADAPTER adapter)
 		}
 
 		ret = _FALSE;
-#ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
-		res = PHY_ConfigRFWithParaFile(adapter, regfile, phydm_path);
-		if (_SUCCESS == res)
-			ret = _TRUE;
-#endif
 		if (_FALSE == ret) {
 			status = odm_config_rf_with_header_file(&hal->odmpriv, CONFIG_RF_RADIO, (enum odm_rf_radio_path_e)phydm_path);
 			if (HAL_STATUS_SUCCESS != status)
@@ -233,11 +199,6 @@ static u8 _init_rf_reg(PADAPTER adapter)
 	 * Configuration of Tx Power Tracking
 	 */
 	ret = _FALSE;
-#ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
-	res = PHY_ConfigRFWithTxPwrTrackParaFile(adapter, PHY_FILE_TXPWR_TRACK);
-	if (_SUCCESS == res)
-		ret = _TRUE;
-#endif
 	if (_FALSE == ret) {
 		status = odm_config_rf_with_tx_pwr_track_header_file(&hal->odmpriv);
 		if (HAL_STATUS_SUCCESS != status) {
