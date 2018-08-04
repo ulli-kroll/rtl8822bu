@@ -17,8 +17,6 @@
 
 #include "drv_types.h"
 
-#ifdef LOAD_FW_HEADER_FROM_DRIVER
-
 #if (defined(CONFIG_AP_WOWLAN) || (DM_ODM_SUPPORT_TYPE & (ODM_AP)))
 
 u8 array_mp_8822b_fw_ap[] = {
@@ -35358,7 +35356,5 @@ u8 array_mp_8822b_fw_wowlan[] = {
 u32 array_length_mp_8822b_fw_wowlan = 73536;
 
 #endif
-
-#endif /* end of LOAD_FW_HEADER_FROM_DRIVER */
 
 #endif
