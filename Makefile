@@ -145,9 +145,6 @@ _HAL_INTFS_FILES :=	hal/hal_intf.o \
 			hal/led/hal_$(HCI_NAME)_led.o
 
 
-EXTRA_CFLAGS += -I$(src)/platform
-_PLATFORM_FILES := platform/platform_ops.o
-
 EXTRA_CFLAGS += -I$(src)/hal/btc
 _BTC_FILES += hal/btc/halbtc8723bwifionly.o \
 				hal/btc/halbtc8822bwifionly.o \
