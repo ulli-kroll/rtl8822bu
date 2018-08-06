@@ -2435,7 +2435,7 @@ static void recvframe_expand_pkt(
 	union recv_frame *prframe)
 {
 	struct recv_frame_hdr *pfhdr;
-	_pkt *ppkt;
+	struct sk_buff *ppkt;
 	u8 shift_sz;
 	u32 alloc_sz;
 	u8 *ptr;
@@ -2688,7 +2688,7 @@ int amsdu_to_msdu(_adapter *padapter, union recv_frame *prframe)
 	u16	nSubframe_Length;
 	u8	nr_subframes, i;
 	u8	*pdata;
-	_pkt *sub_pkt, *subframes[MAX_SUBFRAME_COUNT];
+	struct sk_buff *sub_pkt, *subframes[MAX_SUBFRAME_COUNT];
 	struct recv_priv *precvpriv = &padapter->recvpriv;
 	_queue *pfree_recv_queue = &(precvpriv->free_recv_queue);
 	int	ret = _SUCCESS;
@@ -3632,7 +3632,7 @@ static sint fill_radiotap_hdr(_adapter *padapter, union recv_frame *precvframe, 
 		0, 1, 2, 3, 4, 5, 6, 7, 8, 9, /* VHT Nss 4 */
 	};
 
-	_pkt *pskb = NULL;
+	struct sk_buff *pskb = NULL;
 
 	struct ieee80211_radiotap_header *rtap_hdr = NULL;
 	u8 *ptr = NULL;
@@ -3853,7 +3853,7 @@ static sint fill_radiotap_hdr(_adapter *padapter, union recv_frame *precvframe, 
 	}
 
 	/* push to skb */
-	pskb = (_pkt *)buf;
+	pskb = (struct sk_buff *)buf;
 	if (skb_headroom(pskb) < rt_len) {
 		RTW_INFO("%s:%d %s headroom is too small.\n", __FILE__, __LINE__, __func__);
 		ret = _FAIL;
@@ -3877,7 +3877,7 @@ int recv_frame_monitor(_adapter *padapter, union recv_frame *rframe)
 	struct rx_pkt_attrib *pattrib = &rframe->u.hdr.attrib;
 	struct recv_priv *precvpriv = &padapter->recvpriv;
 	_queue *pfree_recv_queue = &padapter->recvpriv.free_recv_queue;
-	_pkt *pskb = NULL;
+	struct sk_buff *pskb = NULL;
 
 	/* read skb information from recv frame */
 	pskb = rframe->u.hdr.pkt;

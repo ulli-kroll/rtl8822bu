@@ -317,7 +317,7 @@ void rf_reg_dump(void *sel, _adapter *adapter)
 	}
 }
 
-void rtw_sink_rtp_seq_dbg(_adapter *adapter, _pkt *pkt)
+void rtw_sink_rtp_seq_dbg(_adapter *adapter, struct sk_buff *pkt)
 {
 	struct recv_priv *precvpriv = &(adapter->recvpriv);
 	if (precvpriv->sink_udpport > 0) {

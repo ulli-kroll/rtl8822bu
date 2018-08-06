@@ -16,10 +16,10 @@
 
 #include <drv_types.h>
 
-int rtw_os_recvframe_duplicate_skb(_adapter *padapter, union recv_frame *pcloneframe, _pkt *pskb)
+int rtw_os_recvframe_duplicate_skb(_adapter *padapter, union recv_frame *pcloneframe, struct sk_buff *pskb)
 {
 	int res = _SUCCESS;
-	_pkt	*pkt_copy = NULL;
+	struct sk_buff	*pkt_copy = NULL;
 	struct rx_pkt_attrib *pattrib = &pcloneframe->u.hdr.attrib;
 
 	if (pskb == NULL) {
@@ -53,12 +53,12 @@ int rtw_os_recvframe_duplicate_skb(_adapter *padapter, union recv_frame *pclonef
 	return res;
 }
 
-int rtw_os_alloc_recvframe(_adapter *padapter, union recv_frame *precvframe, u8 *pdata, _pkt *pskb)
+int rtw_os_alloc_recvframe(_adapter *padapter, union recv_frame *precvframe, u8 *pdata, struct sk_buff *pskb)
 {
 	int res = _SUCCESS;
 	u8	shift_sz = 0;
 	u32	skb_len, alloc_sz;
-	_pkt	*pkt_copy = NULL;
+	struct sk_buff	*pkt_copy = NULL;
 	struct rx_pkt_attrib *pattrib = &precvframe->u.hdr.attrib;
 
 
@@ -285,11 +285,11 @@ int rtw_os_recvbuf_resource_free(_adapter *padapter, struct recv_buf *precvbuf)
 
 }
 
-_pkt *rtw_os_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubframe_Length, u8 *pdata)
+struct sk_buff *rtw_os_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubframe_Length, u8 *pdata)
 {
 	u16	eth_type;
 	u8	*data_ptr;
-	_pkt *sub_skb;
+	struct sk_buff *sub_skb;
 	struct rx_pkt_attrib *pattrib;
 
 	pattrib = &prframe->u.hdr.attrib;
@@ -339,7 +339,7 @@ _pkt *rtw_os_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubframe_Length, u8 
 #ifdef CONFIG_RTW_NAPI
 static int napi_recv(_adapter *padapter, int budget)
 {
-	_pkt *pskb;
+	struct sk_buff *pskb;
 	struct recv_priv *precvpriv = &padapter->recvpriv;
 	int work_done = 0;
 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
@@ -403,7 +403,7 @@ int rtw_recv_napi_poll(struct napi_struct *napi, int budget)
 	#define PAYLOAD_LEN_LOC_OF_IP_HDR 0x10 /*ethernet payload length location of ip header (DA + SA+eth_type+(version&hdr_len)) */
 #endif
 
-void rtw_os_recv_indicate_pkt(_adapter *padapter, _pkt *pkt, struct rx_pkt_attrib *pattrib)
+void rtw_os_recv_indicate_pkt(_adapter *padapter, struct sk_buff *pkt, struct rx_pkt_attrib *pattrib)
 {
 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
 	struct recv_priv *precvpriv = &(padapter->recvpriv);
@@ -416,7 +416,7 @@ void rtw_os_recv_indicate_pkt(_adapter *padapter, _pkt *pkt, struct rx_pkt_attri
 	/* Indicat the packets to upper layer */
 	if (pkt) {
 		if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == _TRUE) {
-			_pkt *pskb2 = NULL;
+			struct sk_buff *pskb2 = NULL;
 			struct sta_info *psta = NULL;
 			struct sta_priv *pstapriv = &padapter->stapriv;
 			int bmcast = IS_MCAST(pattrib->dst);
@@ -588,7 +588,7 @@ void rtw_handle_tkip_mic_err(_adapter *padapter, struct sta_info *sta, u8 bgroup
 void rtw_hostapd_mlme_rx(_adapter *padapter, union recv_frame *precv_frame)
 {
 #ifdef CONFIG_HOSTAPD_MLME
-	_pkt *skb;
+	struct sk_buff *skb;
 	struct hostapd_priv *phostapdpriv  = padapter->phostapdpriv;
 	struct net_device *pmgnt_netdev = phostapdpriv->pmgnt_netdev;
 
@@ -628,7 +628,7 @@ void rtw_hostapd_mlme_rx(_adapter *padapter, union recv_frame *precv_frame)
 #ifdef CONFIG_AUTO_AP_MODE
 static void rtw_os_ksocket_send(_adapter *padapter, union recv_frame *precv_frame)
 {
-	_pkt *skb = precv_frame->u.hdr.pkt;
+	struct sk_buff *skb = precv_frame->u.hdr.pkt;
 	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
 	struct sta_info *psta = precv_frame->u.hdr.psta;
 
@@ -674,7 +674,7 @@ int rtw_recv_monitor(_adapter *padapter, union recv_frame *precv_frame)
 	int ret = _FAIL;
 	struct recv_priv *precvpriv;
 	_queue	*pfree_recv_queue;
-	_pkt *skb;
+	struct sk_buff *skb;
 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
 	struct rx_pkt_attrib *pattrib;
 
@@ -719,7 +719,7 @@ int rtw_recv_indicatepkt(_adapter *padapter, union recv_frame *precv_frame)
 {
 	struct recv_priv *precvpriv;
 	_queue	*pfree_recv_queue;
-	_pkt *skb;
+	struct sk_buff *skb;
 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
 	struct rx_pkt_attrib *pattrib;
 
@@ -779,7 +779,7 @@ int rtw_recv_indicatepkt(_adapter *padapter, union recv_frame *precv_frame)
 
 	/* TODO: move to core */
 	{
-		_pkt *pkt = skb;
+		struct sk_buff *pkt = skb;
 		struct ethhdr *etherhdr = (struct ethhdr *)pkt->data;
 		struct sta_info *sta = precv_frame->u.hdr.psta;
 

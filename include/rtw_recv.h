@@ -548,7 +548,7 @@ struct recv_buf {
 #endif
 
 #ifdef PLATFORM_LINUX
-	_pkt	*pskb;
+	struct sk_buff	*pskb;
 #endif
 #ifdef PLATFORM_FREEBSD /* skb solution */
 	struct sk_buff *pskb;
@@ -820,7 +820,7 @@ __inline static union recv_frame *rxmem_to_recvframe(u8 *rxmem)
 
 }
 
-__inline static union recv_frame *pkt_to_recvframe(_pkt *pkt)
+__inline static union recv_frame *pkt_to_recvframe(struct sk_buff *pkt)
 {
 
 	u8 *buf_star;
@@ -837,7 +837,7 @@ __inline static union recv_frame *pkt_to_recvframe(_pkt *pkt)
 	return precv_frame;
 }
 
-__inline static u8 *pkt_to_recvmem(_pkt *pkt)
+__inline static u8 *pkt_to_recvmem(struct sk_buff *pkt)
 {
 	/* return the rx_head */
 
@@ -847,7 +847,7 @@ __inline static u8 *pkt_to_recvmem(_pkt *pkt)
 
 }
 
-__inline static u8 *pkt_to_recvdata(_pkt *pkt)
+__inline static u8 *pkt_to_recvdata(struct sk_buff *pkt)
 {
 	/* return the rx_data */
 

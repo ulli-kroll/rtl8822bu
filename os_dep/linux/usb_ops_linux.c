@@ -827,7 +827,7 @@ u32 usb_read_port(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *rmem)
 
 void usb_recv_tasklet(void *priv)
 {
-	_pkt			*pskb;
+	struct sk_buff			*pskb;
 	_adapter		*padapter = (_adapter *)priv;
 	struct recv_priv	*precvpriv = &padapter->recvpriv;
 	struct recv_buf	*precvbuf = NULL;

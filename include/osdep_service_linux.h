@@ -161,7 +161,6 @@ struct	__queue	{
 	_lock	lock;
 };
 
-typedef	struct sk_buff	_pkt;
 typedef unsigned char	_buffer;
 
 typedef struct	__queue	_queue;

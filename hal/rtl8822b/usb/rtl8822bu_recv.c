@@ -41,7 +41,7 @@ exit:
 }
 
 static u8 recvbuf2recvframe_proccess_normal_rx
-(PADAPTER padapter, u8 *pbuf, struct rx_pkt_attrib *pattrib, union recv_frame *precvframe, _pkt *pskb)
+(PADAPTER padapter, u8 *pbuf, struct rx_pkt_attrib *pattrib, union recv_frame *precvframe, struct sk_buff *pskb)
 {
 	u8 ret = _SUCCESS;
 	u8 *pphy_status = NULL;
@@ -90,14 +90,14 @@ int recvbuf2recvframe(PADAPTER padapter, void *ptr)
 	HAL_DATA_TYPE *pHalData = GET_HAL_DATA(padapter);
 	struct recv_priv *precvpriv = &padapter->recvpriv;
 	_queue *pfree_recv_queue = &precvpriv->free_recv_queue;
-	_pkt *pskb;
+	struct sk_buff *pskb;
 
 #ifdef CONFIG_USE_USB_BUFFER_ALLOC_RX
 	pskb = NULL;
 	transfer_len = (s32)((struct recv_buf *)ptr)->transfer_len;
 	pbuf = ((struct recv_buf *)ptr)->pbuf;
 #else /* !CONFIG_USE_USB_BUFFER_ALLOC_RX */
-	pskb = (_pkt *)ptr;
+	pskb = (struct sk_buff *)ptr;
 	transfer_len = (s32)pskb->len;
 	pbuf = pskb->data;
 #endif /* CONFIG_USE_USB_BUFFER_ALLOC_RX */

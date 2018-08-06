@@ -50,7 +50,7 @@ void rtl8822bu_free_xmit_priv(PADAPTER);
 s32 rtl8822bu_mgnt_xmit(PADAPTER, struct xmit_frame *);
 s32 rtl8822bu_hal_xmit(PADAPTER, struct xmit_frame *);
 s32 rtl8822bu_hal_xmitframe_enqueue(PADAPTER, struct xmit_frame *);
-s32 rtl8822bu_hostap_mgnt_xmit_entry(PADAPTER, _pkt *);
+s32 rtl8822bu_hostap_mgnt_xmit_entry(PADAPTER, struct sk_buff *);
 #ifdef CONFIG_XMIT_THREAD_MODE
 s32 rtl8822bu_xmit_buf_handler(PADAPTER);
 #endif /* CONFIG_XMIT_THREAD_MODE */
