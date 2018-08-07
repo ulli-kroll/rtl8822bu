@@ -123,24 +123,12 @@ u8 rtl8822b_hal_init(PADAPTER adapter)
 	hal->bFWReady = _FALSE;
 	hal->fw_ractrl = _FALSE;
 
-#ifdef CONFIG_FILE_FWIMG
-	rtw_get_phy_file_path(adapter, MAC_FILE_FW_NIC);
-	if (rtw_is_file_readable(rtw_phy_para_file_path) == _TRUE) {
-		RTW_INFO("%s acquire FW from file:%s\n", __FUNCTION__, rtw_phy_para_file_path);
-		fw_bin = _TRUE;
-	} else
-#endif /* CONFIG_FILE_FWIMG */
 	{
 		RTW_INFO("%s fw source from array\n", __FUNCTION__);
 		fw_bin = _FALSE;
 	}
 
-#ifdef CONFIG_FILE_FWIMG
-	if (_TRUE == fw_bin)
-		err = rtw_halmac_init_hal_fw_file(d, rtw_phy_para_file_path);
-	else
-#endif /* CONFIG_FILE_FWIMG */
-		err = rtw_halmac_init_hal_fw(d, array_mp_8822b_fw_nic, array_length_mp_8822b_fw_nic);
+	err = rtw_halmac_init_hal_fw(d, array_mp_8822b_fw_nic, array_length_mp_8822b_fw_nic);
 
 	if (err) {
 		RTW_ERR("%s Download Firmware from %s failed\n", __FUNCTION__, (fw_bin) ? "file" : "array");

@@ -167,29 +167,11 @@ s32 rtl8822b_fw_dl(PADAPTER adapter, u8 wowlan)
 	int err;
 	u8 fw_bin = _TRUE;
 
-#ifdef CONFIG_FILE_FWIMG
-#ifdef CONFIG_WOWLAN
-	if (wowlan)
-		rtw_get_phy_file_path(adapter, MAC_FILE_FW_WW_IMG);
-	else
-#endif /* CONFIG_WOWLAN */
-		rtw_get_phy_file_path(adapter, MAC_FILE_FW_NIC);
-
-	if (rtw_is_file_readable(rtw_phy_para_file_path) == _TRUE) {
-		RTW_INFO("%s acquire FW from file:%s\n", __FUNCTION__, rtw_phy_para_file_path);
-		fw_bin = _TRUE;
-	} else
-#endif /* CONFIG_FILE_FWIMG */
 	{
 		RTW_INFO("%s fw source from array\n", __FUNCTION__);
 		fw_bin = _FALSE;
 	}
 
-#ifdef CONFIG_FILE_FWIMG
-	if (_TRUE == fw_bin) {
-		err = rtw_halmac_dlfw_from_file(d, rtw_phy_para_file_path);
-	} else
-#endif /* CONFIG_FILE_FWIMG */
 	{
 		#ifdef CONFIG_WOWLAN
 		if (_TRUE == wowlan)
