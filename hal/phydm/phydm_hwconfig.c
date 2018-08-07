@@ -2828,35 +2828,6 @@ odm_config_mac_with_header_file(
 	return result;
 }
 
-enum hal_status
-odm_config_fw_with_header_file(
-	struct PHY_DM_STRUCT			*p_dm_odm,
-	enum odm_fw_config_type	config_type,
-	u8				*p_firmware,
-	u32				*p_size
-)
-{
-#if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
-
-#if (RTL8822B_SUPPORT == 1)
-	if (p_dm_odm->support_ic_type == ODM_RTL8822B) {
-
-		if (config_type == CONFIG_FW_NIC)
-			READ_FIRMWARE_MP(8822b, _fw_nic);
-		else if (config_type == CONFIG_FW_WOWLAN)
-			READ_FIRMWARE_MP(8822b, _fw_wowlan);
-#ifdef CONFIG_AP_WOWLAN
-		else if (config_type == config_fw_ap_wowlan)
-			READ_FIRMWARE(8822b, _fw_ap);
-#endif
-	}
-#endif
-
-
-#endif/* (DM_ODM_SUPPORT_TYPE != ODM_AP) */
-	return HAL_STATUS_SUCCESS;
-}
-
 u32
 odm_get_hw_img_version(
 	struct PHY_DM_STRUCT	*p_dm_odm
