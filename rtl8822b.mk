@@ -1,10 +1,6 @@
 EXTRA_CFLAGS += -DCONFIG_RTL8822B
 
-ifeq ($(CONFIG_BT_COEXIST), n)
-MODULE_NAME = 8812bu
-else
-MODULE_NAME = 88x2bu
-endif
+MODULE_NAME = rtl8812bu
 
 ifeq ($(CONFIG_MP_INCLUDED), y)
 ### 8822B Default Enable VHT MP HW TX MODE ###
