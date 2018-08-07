@@ -29,16 +29,13 @@ _PHYDM_FILES := hal/phydm/phydm_debug.o	\
 								hal/phydm/halrf/halrf_kfree.o
 		
 
-ifeq ($(CONFIG_RTL8822B), y)
-RTL871X = rtl8822b
-_PHYDM_FILES +=	hal/phydm/$(RTL871X)/halhwimg8822b_bb.o \
-								hal/phydm/$(RTL871X)/halhwimg8822b_mac.o \
-								hal/phydm/$(RTL871X)/halhwimg8822b_rf.o \
-								hal/phydm/halrf/$(RTL871X)/halrf_8822b.o \
-								hal/phydm/$(RTL871X)/phydm_hal_api8822b.o \
-								hal/phydm/halrf/$(RTL871X)/halrf_iqk_8822b.o \
-								hal/phydm/$(RTL871X)/phydm_regconfig8822b.o \
-								hal/phydm/$(RTL871X)/phydm_rtl8822b.o
+_PHYDM_FILES +=	hal/phydm/rtl8822b/halhwimg8822b_bb.o \
+		hal/phydm/rtl8822b/halhwimg8822b_mac.o \
+		hal/phydm/rtl8822b/halhwimg8822b_rf.o \
+		hal/phydm/halrf/rtl8822b/halrf_8822b.o \
+		hal/phydm/rtl8822b/phydm_hal_api8822b.o \
+		hal/phydm/halrf/rtl8822b/halrf_iqk_8822b.o \
+		hal/phydm/rtl8822b/phydm_regconfig8822b.o \
+		hal/phydm/rtl8822b/phydm_rtl8822b.o
 
 _PHYDM_FILES +=	hal/phydm/txbf/haltxbf8822b.o
-endif
