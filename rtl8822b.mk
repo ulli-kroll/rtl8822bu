@@ -1,11 +1,9 @@
 EXTRA_CFLAGS += -DCONFIG_RTL8822B
 
-ifeq ($(CONFIG_USB_HCI), y)
 ifeq ($(CONFIG_BT_COEXIST), n)
 MODULE_NAME = 8812bu
 else
 MODULE_NAME = 88x2bu
-endif
 endif
 
 ifeq ($(CONFIG_MP_INCLUDED), y)
@@ -42,37 +40,15 @@ _HAL_INTFS_FILES +=	hal/rtl8822b/rtl8822b_halinit.o \
 			hal/rtl8822b/hal8822b_fw.o
 
 ifeq ($(CONFIG_USB_HCI), y)
-_HAL_INTFS_FILES +=	hal/rtl8822b/$(HCI_NAME)/rtl8822bu_halinit.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822bu_halmac.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822bu_io.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822bu_xmit.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822bu_recv.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822bu_led.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822bu_ops.o
+_HAL_INTFS_FILES +=	hal/rtl8822b/usb/rtl8822bu_halinit.o \
+			hal/rtl8822b/usb/rtl8822bu_halmac.o \
+			hal/rtl8822b/usb/rtl8822bu_io.o \
+			hal/rtl8822b/usb/rtl8822bu_xmit.o \
+			hal/rtl8822b/usb/rtl8822bu_recv.o \
+			hal/rtl8822b/usb/rtl8822bu_led.o \
+			hal/rtl8822b/usb/rtl8822bu_ops.o
 
 _HAL_INTFS_FILES +=hal/efuse/rtl8822b/HalEfuseMask8822B_USB.o
-endif
-ifeq ($(CONFIG_PCI_HCI), y)
-_HAL_INTFS_FILES +=	hal/rtl8822b/$(HCI_NAME)/rtl8822be_halinit.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822be_halmac.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822be_io.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822be_xmit.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822be_recv.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822be_led.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822be_ops.o
-
-_HAL_INTFS_FILES +=hal/efuse/rtl8822b/HalEfuseMask8822B_PCIE.o
-endif
-ifeq ($(CONFIG_SDIO_HCI), y)
-_HAL_INTFS_FILES +=	hal/rtl8822b/$(HCI_NAME)/rtl8822bs_halinit.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822bs_halmac.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822bs_io.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822bs_xmit.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822bs_recv.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822bs_led.o \
-			hal/rtl8822b/$(HCI_NAME)/rtl8822bs_ops.o
-
-_HAL_INTFS_FILES +=hal/efuse/rtl8822b/HalEfuseMask8822B_SDIO.o
 endif
 
 _HAL_INTFS_FILES += $(_HAL_HALMAC_FILES)
