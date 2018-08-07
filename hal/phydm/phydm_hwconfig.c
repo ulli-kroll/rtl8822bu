@@ -24,40 +24,18 @@
 #define READ_AND_CONFIG_TC(ic, txt) (odm_read_and_config_tc_##ic##txt(p_dm_odm))
 
 
-#if (PHYDM_TESTCHIP_SUPPORT == 1)
-#define READ_AND_CONFIG(ic, txt) do {\
-		if (p_dm_odm->is_mp_chip)\
-			READ_AND_CONFIG_MP(ic, txt);\
-		else\
-			READ_AND_CONFIG_TC(ic, txt);\
-	} while (0)
-#else
 #define READ_AND_CONFIG     READ_AND_CONFIG_MP
-#endif
 
 
 #define READ_FIRMWARE_MP(ic, txt)		(odm_read_firmware_mp_##ic##txt(p_dm_odm, p_firmware, p_size))
 #define READ_FIRMWARE_TC(ic, txt)		(odm_read_firmware_tc_##ic##txt(p_dm_odm, p_firmware, p_size))
 
-#if (PHYDM_TESTCHIP_SUPPORT == 1)
-#define READ_FIRMWARE(ic, txt) do {\
-		if (p_dm_odm->is_mp_chip)\
-			READ_FIRMWARE_MP(ic, txt);\
-		else\
-			READ_FIRMWARE_TC(ic, txt);\
-	} while (0)
-#else
 #define READ_FIRMWARE     READ_FIRMWARE_MP
-#endif
 
 #define GET_VERSION_MP(ic, txt)		(odm_get_version_mp_##ic##txt())
 #define GET_VERSION_TC(ic, txt)		(odm_get_version_tc_##ic##txt())
 
-#if (PHYDM_TESTCHIP_SUPPORT == 1)
-	#define GET_VERSION(ic, txt) (p_dm_odm->is_mp_chip ? GET_VERSION_MP(ic, txt) : GET_VERSION_TC(ic, txt))
-#else
-	#define GET_VERSION(ic, txt) GET_VERSION_MP(ic, txt)
-#endif
+#define GET_VERSION(ic, txt) GET_VERSION_MP(ic, txt)
 
 void
 phydm_rx_statistic_cal(

@@ -115,7 +115,6 @@ enum rt_spinlock_type {
 	#define sta_info 	_RT_WLAN_STA
 	#define cmn_sta_info	_RT_WLAN_STA	/*tmp add for compile*/
 	#define	__func__		__FUNCTION__
-	#define	PHYDM_TESTCHIP_SUPPORT	TESTCHIP_SUPPORT
 	#define MASKH3BYTES			0xffffff00
 	#define SUCCESS	0
 	#define FAIL	(-1)
@@ -145,12 +144,6 @@ enum rt_spinlock_type {
 	#define _TRUE				1
 	#define _FALSE				0
 
-	#if (defined(TESTCHIP_SUPPORT))
-		#define	PHYDM_TESTCHIP_SUPPORT 1
-	#else
-		#define	PHYDM_TESTCHIP_SUPPORT 0
-	#endif
-
 	#define	sta_info stat_info
 	#define	cmn_sta_info stat_info	/*tmp add for compile*/
 	#define	boolean	bool
@@ -174,7 +167,6 @@ enum rt_spinlock_type {
 	#define	FOR_BRAZIL_PRETEST 0
 	#define	FPGA_TWO_MAC_VERIFICATION	0
 	#define	RTL8881A_SUPPORT	0
-	#define	PHYDM_TESTCHIP_SUPPORT 0
 
 	/* support list */
 	#define RTL8188E_SUPPORT				0
@@ -236,11 +228,6 @@ enum rt_spinlock_type {
 	#define	FPGA_TWO_MAC_VERIFICATION	0
 	#define	RTL8881A_SUPPORT	0
 
-	#if (defined(TESTCHIP_SUPPORT))
-		#define	PHYDM_TESTCHIP_SUPPORT 1
-	#else
-		#define	PHYDM_TESTCHIP_SUPPORT 0
-	#endif
 #endif
 
 #define READ_NEXT_PAIR(v1, v2, i) do { if (i+2 >= array_len) break; i += 2; v1 = array[i]; v2 = array[i+1]; } while (0)
