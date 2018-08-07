@@ -39,96 +39,6 @@
 #ifdef CONFIG_MULTIDRV
 #endif
 
-#ifdef CONFIG_RTL8188E
-	#undef RTL8188E_SUPPORT
-	#undef RATE_ADAPTIVE_SUPPORT
-	#undef POWER_TRAINING_ACTIVE
-
-	#define RTL8188E_SUPPORT				1
-	#define RATE_ADAPTIVE_SUPPORT			1
-	#define POWER_TRAINING_ACTIVE			1
-	#define CONFIG_GET_RAID_BY_DRV
-#endif
-
-#ifdef CONFIG_RTL8812A
-	#undef RTL8812A_SUPPORT
-	#define RTL8812A_SUPPORT				1
-	#ifndef CONFIG_FW_C2H_PKT
-		#define CONFIG_FW_C2H_PKT
-	#endif
-#endif
-
-#ifdef CONFIG_RTL8821A
-	#undef RTL8821A_SUPPORT
-	#define RTL8821A_SUPPORT				1
-	#ifndef CONFIG_FW_C2H_PKT
-		#define CONFIG_FW_C2H_PKT
-	#endif
-#endif
-
-#ifdef CONFIG_RTL8192E
-	#undef RTL8192E_SUPPORT
-	#define RTL8192E_SUPPORT				1
-	#ifndef CONFIG_FW_C2H_PKT
-		#define CONFIG_FW_C2H_PKT
-	#endif
-#endif
-
-#ifdef CONFIG_RTL8723B
-	#undef RTL8723B_SUPPORT
-	#define RTL8723B_SUPPORT				1
-	#ifndef CONFIG_FW_C2H_PKT
-		#define CONFIG_FW_C2H_PKT
-	#endif
-#endif
-
-#ifdef CONFIG_RTL8723D
-	#undef RTL8723D_SUPPORT
-	#define RTL8723D_SUPPORT				1
-	#ifndef CONFIG_FW_C2H_PKT
-		#define CONFIG_FW_C2H_PKT
-	#endif
-	#ifndef CONFIG_RTW_MAC_HIDDEN_RPT
-		#define CONFIG_RTW_MAC_HIDDEN_RPT
-	#endif
-	#ifndef CONFIG_RTW_CUSTOMER_STR
-		#define CONFIG_RTW_CUSTOMER_STR
-	#endif
-#endif
-
-#ifdef CONFIG_RTL8814A
-	#undef RTL8814A_SUPPORT
-	#define RTL8814A_SUPPORT				1
-	#ifndef CONFIG_FW_C2H_PKT
-		#define CONFIG_FW_C2H_PKT
-	#endif
-#endif
-
-#ifdef CONFIG_RTL8703B
-	#undef RTL8703B_SUPPORT
-	#define RTL8703B_SUPPORT				1
-	#ifndef CONFIG_FW_C2H_PKT
-		#define CONFIG_FW_C2H_PKT
-	#endif
-	#ifndef CONFIG_RTW_MAC_HIDDEN_RPT
-		#define CONFIG_RTW_MAC_HIDDEN_RPT
-	#endif
-#endif
-
-#ifdef CONFIG_RTL8188F
-	#undef RTL8188F_SUPPORT
-	#define RTL8188F_SUPPORT				1
-	#ifndef CONFIG_FW_C2H_PKT
-		#define CONFIG_FW_C2H_PKT
-	#endif
-	#ifndef CONFIG_RTW_MAC_HIDDEN_RPT
-		#define CONFIG_RTW_MAC_HIDDEN_RPT
-	#endif
-	#ifndef CONFIG_RTW_CUSTOMER_STR
-		#define CONFIG_RTW_CUSTOMER_STR
-	#endif
-#endif
-
 #ifdef CONFIG_RTL8822B
 	#undef RTL8822B_SUPPORT
 	#define RTL8822B_SUPPORT				1
@@ -180,28 +90,5 @@
 		#define RTW_IQK_FW_OFFLOAD
 	#endif /* RTW_IQK_FW_OFFLOAD */
 #endif /* CONFIG_RTL8822B */
-
-#ifdef CONFIG_RTL8821C
-	#undef RTL8821C_SUPPORT
-	#define RTL8821C_SUPPORT				1
-	#ifndef CONFIG_FW_C2H_PKT
-		#define CONFIG_FW_C2H_PKT
-	#endif
-	#ifdef CONFIG_NO_FW
-		#ifdef CONFIG_RTW_MAC_HIDDEN_RPT
-			#undef CONFIG_RTW_MAC_HIDDEN_RPT
-		#endif
-	#else
-		#ifndef CONFIG_RTW_MAC_HIDDEN_RPT
-			#define CONFIG_RTW_MAC_HIDDEN_RPT
-		#endif
-	#endif
-	#define CONFIG_PHY_CAPABILITY_QUERY
-	#ifdef CONFIG_CONCURRENT_MODE
-	#define CONFIG_AP_PORT_SWAP
-	#define CONFIG_FW_MULTI_PORT_SUPPORT
-	#endif
-	#define CONFIG_SUPPORT_FIFO_DUMP
-#endif
 
 #endif /*__HAL_IC_CFG_H__*/
