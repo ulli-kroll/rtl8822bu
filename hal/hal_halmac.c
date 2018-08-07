@@ -18,6 +18,7 @@
 #include <hal_data.h>		/* efuse, PHAL_DATA_TYPE and etc. */
 #include "halmac/halmac_api.h"	/* HALMAC_FW_SIZE_MAX_88XX and etc. */
 #include "hal_halmac.h"		/* dvobj_to_halmac() and ect. */
+#include <linux/firmware.h>
 
 #define DEFAULT_INDICATOR_TIMELMT	1000	/* ms */
 #define FIRMWARE_MAX_SIZE		HALMAC_FW_SIZE_MAX_88XX
@@ -1456,7 +1457,7 @@ out:
  *	2. HAL_DATA_TYPE.rfe_type
  *	already ready for use before calling this function.
  */
-static int _halmac_init_hal(struct dvobj_priv *d, u8 *fw, u32 fwsize)
+static int halmac_init_hal(struct dvobj_priv *d)
 {
 	PADAPTER adapter;
 	PHALMAC_ADAPTER halmac;
@@ -1465,7 +1466,8 @@ static int _halmac_init_hal(struct dvobj_priv *d, u8 *fw, u32 fwsize)
 	u32 ok = _TRUE;
 	u8 fw_ok = _FALSE;
 	int err, err_ret = -1;
-
+	char *fw_name =  "rtlwifi/rtl8812bufw.bin";
+	const struct firmware *fw;
 
 	adapter = dvobj_get_primary_adapter(d);
 	halmac = dvobj_to_halmac(d);
@@ -1486,13 +1488,20 @@ static int _halmac_init_hal(struct dvobj_priv *d, u8 *fw, u32 fwsize)
 
 	/* StatePowerOn */
 
+	RTW_INFO("loading firmware %s\n",fw_name);
+	if (request_firmware(&fw, fw_name, &d->pusbdev->dev)) {
+		RTW_ERR("Firmware %s not available\n", fw_name);
+		goto out;
+	}
 	/* DownloadFW */
-	if (fw && fwsize) {
-		err = download_fw(d, fw, fwsize, 0);
+	if (fw->data, fw->size) {
+		err = download_fw(d, (u8 *) fw->data, fw->size, 0);
 		if (err)
 			goto out;
 		fw_ok = _TRUE;
 	}
+
+	release_firmware(fw);
 
 	/* InitMACFlow */
 	status = init_mac_flow(d);
@@ -1540,53 +1549,7 @@ out:
 
 int rtw_halmac_init_hal(struct dvobj_priv *d)
 {
-	return _halmac_init_hal(d, NULL, 0);
-}
-
-/*
- * Notices:
- *	Make sure
- *	1. rtw_hal_get_hwreg(HW_VAR_RF_TYPE)
- *	2. HAL_DATA_TYPE.rfe_type
- *	already ready for use before calling this function.
- */
-int rtw_halmac_init_hal_fw(struct dvobj_priv *d, u8 *fw, u32 fwsize)
-{
-	return _halmac_init_hal(d, fw, fwsize);
-}
-
-/*
- * Notices:
- *	Make sure
- *	1. rtw_hal_get_hwreg(HW_VAR_RF_TYPE)
- *	2. HAL_DATA_TYPE.rfe_type
- *	already ready for use before calling this function.
- */
-int rtw_halmac_init_hal_fw_file(struct dvobj_priv *d, u8 *fwpath)
-{
-	u8 *fw = NULL;
-	u32 fwmaxsize, size = 0;
-	int err = 0;
-
-
-	fwmaxsize = FIRMWARE_MAX_SIZE;
-	fw = rtw_zmalloc(fwmaxsize);
-	if (!fw)
-		return -1;
-
-	size = rtw_retrieve_from_file(fwpath, fw, fwmaxsize);
-	if (!size) {
-		err = -1;
-		goto exit;
-	}
-
-	err = _halmac_init_hal(d, fw, size);
-
-exit:
-	rtw_mfree(fw, fwmaxsize);
-	fw = NULL;
-
-	return err;
+	return halmac_init_hal(d);
 }
 
 int rtw_halmac_deinit_hal(struct dvobj_priv *d)

@@ -115,7 +115,6 @@ u8 rtl8822b_hal_init(PADAPTER adapter)
 	struct dvobj_priv *d;
 	PHAL_DATA_TYPE hal;
 	int err;
-	u8 fw_bin = _TRUE;
 
 	d = adapter_to_dvobj(adapter);
 	hal = GET_HAL_DATA(adapter);
@@ -123,21 +122,16 @@ u8 rtl8822b_hal_init(PADAPTER adapter)
 	hal->bFWReady = _FALSE;
 	hal->fw_ractrl = _FALSE;
 
-	{
-		RTW_INFO("%s fw source from array\n", __FUNCTION__);
-		fw_bin = _FALSE;
-	}
-
-	err = rtw_halmac_init_hal_fw(d, array_mp_8822b_fw_nic, array_length_mp_8822b_fw_nic);
+	err = rtw_halmac_init_hal(d);
 
 	if (err) {
-		RTW_ERR("%s Download Firmware from %s failed\n", __FUNCTION__, (fw_bin) ? "file" : "array");
+		RTW_ERR("%s Download Firmware failed\n", __FUNCTION__);
 		return _FALSE;
 	}
 
 	
 
-	RTW_INFO("%s Download Firmware from %s success\n", __FUNCTION__, (fw_bin) ? "file" : "array");
+	RTW_INFO("%s Download Firmware success\n", __FUNCTION__);
 	RTW_INFO("%s FW Version:%d SubVersion:%d FW size:%d\n", "NIC",
 		hal->firmware_version, hal->firmware_sub_version, hal->firmware_size);
 

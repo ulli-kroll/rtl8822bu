@@ -60,8 +60,6 @@ int rtw_halmac_deinit_adapter(struct dvobj_priv *);
 int rtw_halmac_poweron(struct dvobj_priv *);
 int rtw_halmac_poweroff(struct dvobj_priv *);
 int rtw_halmac_init_hal(struct dvobj_priv *);
-int rtw_halmac_init_hal_fw(struct dvobj_priv *, u8 *fw, u32 fwsize);
-int rtw_halmac_init_hal_fw_file(struct dvobj_priv *, u8 *fwpath);
 int rtw_halmac_deinit_hal(struct dvobj_priv *);
 int rtw_halmac_self_verify(struct dvobj_priv *);
 int rtw_halmac_dlfw(struct dvobj_priv *, u8 *fw, u32 fwsize);
