@@ -491,21 +491,9 @@ all: modules
 modules:
 	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KSRC) M=$(shell pwd)  modules
 
-strip:
-	$(CROSS_COMPILE)strip $(MODULE_NAME).ko --strip-unneeded
-
-install:
-	install -p -m 644 $(MODULE_NAME).ko  $(MODDESTDIR)
-	/sbin/depmod -a ${KVER}
-
-uninstall:
-	rm -f $(MODDESTDIR)/$(MODULE_NAME).ko
-	/sbin/depmod -a ${KVER}
-
-config_r:
-	@echo "make config"
-	/bin/bash script/Configure script/config.in
-
+installfw:
+	mkdir -p /lib/firmware/rtlwifi
+	cp -n firmware/* /lib/firmware/rtlwifi/.
 
 .PHONY: modules clean
 
@@ -523,5 +511,11 @@ clean:
 	rm -fr Module.symvers ; rm -fr Module.markers ; rm -fr modules.order
 	rm -fr *.mod.c *.mod *.o .*.cmd *.ko *~
 	rm -fr .tmp_versions
+
+help:
+	@echo "options :"
+	@echo "modules		build this module"
+	@echo "installfw	install firmware"
+	@echo "clean		clean"
 endif
 
