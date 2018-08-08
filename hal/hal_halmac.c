@@ -1457,7 +1457,7 @@ out:
  *	2. HAL_DATA_TYPE.rfe_type
  *	already ready for use before calling this function.
  */
-static int halmac_init_hal(struct dvobj_priv *d)
+static int _halmac_init_hal(struct dvobj_priv *d, u8 *fw, u32 fwsize)
 {
 	PADAPTER adapter;
 	PHALMAC_ADAPTER halmac;
@@ -1466,8 +1466,6 @@ static int halmac_init_hal(struct dvobj_priv *d)
 	u32 ok = _TRUE;
 	u8 fw_ok = _FALSE;
 	int err, err_ret = -1;
-	char *fw_name =  "rtlwifi/rtl8812bufw.bin";
-	const struct firmware *fw;
 
 	adapter = dvobj_get_primary_adapter(d);
 	halmac = dvobj_to_halmac(d);
@@ -1488,20 +1486,13 @@ static int halmac_init_hal(struct dvobj_priv *d)
 
 	/* StatePowerOn */
 
-	RTW_INFO("loading firmware %s\n",fw_name);
-	if (request_firmware(&fw, fw_name, &d->pusbdev->dev)) {
-		RTW_ERR("Firmware %s not available\n", fw_name);
-		goto out;
-	}
 	/* DownloadFW */
-	if (fw->data, fw->size) {
-		err = download_fw(d, (u8 *) fw->data, fw->size, 0);
+	if (fw && fwsize) {
+		err = download_fw(d, fw, fwsize, 0);
 		if (err)
 			goto out;
 		fw_ok = _TRUE;
 	}
-
-	release_firmware(fw);
 
 	/* InitMACFlow */
 	status = init_mac_flow(d);
@@ -1549,7 +1540,7 @@ out:
 
 int rtw_halmac_init_hal(struct dvobj_priv *d)
 {
-	return halmac_init_hal(d);
+	return _halmac_init_hal(d, NULL, 0);
 }
 
 int rtw_halmac_deinit_hal(struct dvobj_priv *d)
@@ -1616,122 +1607,40 @@ u8 rtw_halmac_txfifo_is_empty(struct dvobj_priv *d)
 	return rst;
 }
 
-static HALMAC_DLFW_MEM _get_halmac_fw_mem(enum fw_mem mem)
-{
-	if (FW_EMEM == mem)
-		return HALMAC_DLFW_MEM_EMEM;
-	else if (FW_IMEM == mem)
-		return HALMAC_DLFW_MEM_UNDEFINE;
-	else if (FW_DMEM == mem)
-		return HALMAC_DLFW_MEM_UNDEFINE;
-	else
-		return HALMAC_DLFW_MEM_UNDEFINE;
-}
-
-#define DBG_DL_FW_MEM
-int rtw_halmac_dlfw_mem(struct dvobj_priv *d, u8 *fw, u32 fwsize, enum fw_mem mem)
-{
-	PHALMAC_ADAPTER mac;
-	PHALMAC_API api;
-	HALMAC_RET_STATUS status;
-	int err = 0;
-	u8 chk_cnt = 0;
-	bool txfifo_empty = _FALSE;
-
-	mac = dvobj_to_halmac(d);
-	api = HALMAC_GET_API(mac);
-
-	if ((!fw) || (!fwsize))
-		return -1;
-
-	/* 1. Driver Stop Tx */
-	/* ToDo */
-
-	/* 2. Driver Check Tx FIFO is empty */
-	do {
-		txfifo_empty = rtw_halmac_txfifo_is_empty(d);
-		chk_cnt++;
-		#ifdef DBG_DL_FW_MEM
-		RTW_INFO("polling txfifo empty chk_cnt:%d\n", chk_cnt);
-		#endif
-		rtw_msleep_os(2);
-	} while ((!txfifo_empty) && (chk_cnt < 100));
-
-	if (_FALSE == txfifo_empty) {
-		#ifdef DBG_DL_FW_MEM
-		{
-			PADAPTER adapter = dvobj_get_primary_adapter(d);
-
-			RTW_ERR("%s => polling txfifo empty failed\n", __func__);
-			RTW_ERR("REG_210:0x%08x\n", rtw_read32(adapter, 0x210));
-			RTW_ERR("REG_230:0x%08x\n", rtw_read32(adapter, 0x230));
-			RTW_ERR("REG_234:0x%08x\n", rtw_read32(adapter, 0x234));
-			RTW_ERR("REG_238:0x%08x\n", rtw_read32(adapter, 0x238));
-			RTW_ERR("REG_23C:0x%08x\n", rtw_read32(adapter, 0x23C));
-			RTW_ERR("REG_240:0x%08x\n", rtw_read32(adapter, 0x240));
-		}
-		#endif
-		return -1;
-	}
-
-	/* 3. Download Firmware MEM */
-	status = api->halmac_free_download_firmware(mac, _get_halmac_fw_mem(mem), fw, fwsize);
-	if (HALMAC_RET_SUCCESS != status) {
-		#ifdef DBG_DL_FW_MEM
-		RTW_ERR("%s => halmac_free_download_firmware failed\n", __func__);
-		#endif
-		return -1;
-	}
-	/* 4. Driver resume TX if needed */
-	/* ToDo */
-
-	return err;
-}
-
-int rtw_halmac_dlfw_mem_from_file(struct dvobj_priv *d, u8 *fwpath, enum fw_mem mem)
-{
-	u8 *fw = NULL;
-	u32 fwmaxsize, size = 0;
-	int err = 0;
-
-	fwmaxsize = FIRMWARE_MAX_SIZE;
-	fw = rtw_zmalloc(fwmaxsize);
-	if (!fw)
-		return -1;
-
-	size = rtw_retrieve_from_file(fwpath, fw, fwmaxsize);
-	if (size)
-		err = rtw_halmac_dlfw_mem(d, fw, size, mem);
-	else
-		err = -1;
-
-	rtw_mfree(fw, fwmaxsize);
-	fw = NULL;
-
-	return err;
-}
-
 /*
  * Return:
  *	0	Success
  *	-22	Invalid arguemnt
  */
-int rtw_halmac_dlfw(struct dvobj_priv *d, u8 *fw, u32 fwsize)
+int rtw_halmac_dlfw(struct dvobj_priv *d)
 {
 	PADAPTER adapter;
 	HALMAC_RET_STATUS status;
 	u32 ok = _TRUE;
 	int err, err_ret = -1;
+	char *fw_name =  "rtlwifi/rtl8812bufw.bin";
+	const struct firmware *fw;
 
+	RTW_INFO("request firmware %s\n",fw_name);
+	if (request_firmware(&fw, fw_name, &d->pusbdev->dev)) {
+		RTW_ERR("Firmware %s not available\n", fw_name);
+		goto out;
+	}
 
-	if (!fw || !fwsize)
+	if (!fw->data || !fw->size)
 		return -22;
 
 	adapter = dvobj_get_primary_adapter(d);
 
 	/* re-download firmware */
-	if (rtw_is_hw_init_completed(adapter))
-		return download_fw(d, fw, fwsize, 1);
+	if (rtw_is_hw_init_completed(adapter)) {
+		int ret;
+
+		ret =  download_fw(d, (u8 *) fw->data, fw->size, 1);
+		RTW_INFO("firmware re-downloaded to device %d\n", ret);
+		release_firmware(fw);
+		return ret;
+	}
 
 	/* Download firmware before hal init */
 	/* Power on, download firmware and init mac */
@@ -1739,7 +1648,9 @@ int rtw_halmac_dlfw(struct dvobj_priv *d, u8 *fw, u32 fwsize)
 	if (_FAIL == ok)
 		goto out;
 
-	err = download_fw(d, fw, fwsize, 0);
+	err = download_fw(d, (u8 *) fw->data, fw->size, 0);
+	RTW_INFO("firmware downloaded to device %d\n", err);
+	release_firmware(fw);
 	if (err) {
 		err_ret = err;
 		goto out;
@@ -1757,30 +1668,6 @@ int rtw_halmac_dlfw(struct dvobj_priv *d, u8 *fw, u32 fwsize)
 
 out:
 	return err_ret;
-}
-
-int rtw_halmac_dlfw_from_file(struct dvobj_priv *d, u8 *fwpath)
-{
-	u8 *fw = NULL;
-	u32 fwmaxsize, size = 0;
-	int err = 0;
-
-
-	fwmaxsize = FIRMWARE_MAX_SIZE;
-	fw = rtw_zmalloc(fwmaxsize);
-	if (!fw)
-		return -1;
-
-	size = rtw_retrieve_from_file(fwpath, fw, fwmaxsize);
-	if (size)
-		err = rtw_halmac_dlfw(d, fw, size);
-	else
-		err = -1;
-
-	rtw_mfree(fw, fwmaxsize);
-	fw = NULL;
-
-	return err;
 }
 
 /*

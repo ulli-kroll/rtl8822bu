@@ -168,17 +168,12 @@ s32 rtl8822b_fw_dl(PADAPTER adapter, u8 wowlan)
 	u8 fw_bin = _TRUE;
 
 	{
-		RTW_INFO("%s fw source from array\n", __FUNCTION__);
-		fw_bin = _FALSE;
-	}
-
-	{
 		#ifdef CONFIG_WOWLAN
 		if (_TRUE == wowlan)
-			err = rtw_halmac_dlfw(d, array_mp_8822b_fw_wowlan, array_length_mp_8822b_fw_wowlan);
+			err = rtw_halmac_dlfw(d), array_mp_8822b_fw_wowlan, array_length_mp_8822b_fw_wowlan);
 		else
 		#endif /* CONFIG_WOWLAN */
-			err = rtw_halmac_dlfw(d, array_mp_8822b_fw_nic, array_length_mp_8822b_fw_nic);
+			err = rtw_halmac_dlfw(d);
 	}
 
 	if (!err) {
