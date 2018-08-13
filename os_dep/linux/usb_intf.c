@@ -149,6 +149,11 @@ static struct usb_device_id rtw_usb_id_tbl[] = {
 	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0xB812, 0xff, 0xff, 0xff), .driver_info = RTL8822B}, /* Default ID for USB Single-function, WiFi only */
 	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_EDIMAX, 0xB822, 0xff, 0xff, 0xff), .driver_info = RTL8822B}, //EDX
 	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_EDIMAX, 0xC822, 0xff, 0xff, 0xff), .driver_info = RTL8822B}, //EDX
+	{USB_DEVICE(0x0b05, 0x184c), .driver_info = RTL8822B},	/* ASUS AC53 Nano */
+	{USB_DEVICE(0x0b05, 0x1841), .driver_info = RTL8822B},	/* ASUS AC55 B1 */
+	{USB_DEVICE(0x2001, 0x331c), .driver_info = RTL8822B},	/* D-Link DWA-182 rev D1 */
+	{USB_DEVICE(0x13b1, 0x0043), .driver_info = RTL8822B},	/* Linksys WUSB6400M */
+	
 #endif /* CONFIG_RTL8822B */
 
 #ifdef CONFIG_RTL8821C
