@@ -144,7 +144,7 @@ include $(TopDIR)/hal/phydm/phydm.mk
 ifeq ($(CONFIG_RTL8822B), y)
 EXTRA_CFLAGS += -DCONFIG_RTL8822B
 
-MODULE_NAME = rtl8812bu
+MODULE_NAME = rtl8822bu
 
 ifeq ($(CONFIG_MP_INCLUDED), y)
 ### 8822B Default Enable VHT MP HW TX MODE ###

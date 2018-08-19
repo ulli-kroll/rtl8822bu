@@ -1,7 +1,7 @@
-rtl8812bu for linux
+rtl8822bu for linux
 ===================
 
-rtl8812bu linux kernel driver Wireless Dual-Band USB Adapter
+rtl8822bu/rtl8812bu linux kernel driver Wireless Dual-Band USB Adapter
 
 For the USB3 issue read at the end  
 
@@ -18,7 +18,7 @@ for building type
 
 for load the driver  
 `sudo modprobe cfg80211`  
-`sudo insmod rtl8812bu.ko`  
+`sudo insmod rtl8822bu.ko`  
 
 
 You need to install the needed fw with  
@@ -36,7 +36,7 @@ Realtek aka the chipdesigner does some **stupid** idea to switch into USB3 mode 
 Will check for this and enable USB3
 
 Please use prefix  
-rtl8812bu:  
+rtl8822bu:  
 in subject line  
 TIA  
 
