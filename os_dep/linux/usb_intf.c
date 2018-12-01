@@ -564,16 +564,23 @@ static int usb_reprobe_switch_usb_mode(PADAPTER Adapter)
 {
 	struct registry_priv *registry_par = &Adapter->registrypriv;
 	HAL_DATA_TYPE *pHalData = GET_HAL_DATA(Adapter);
+	struct dvobj_priv *d = adapter_to_dvobj(Adapter);
 	u8 ret = _FALSE;
 
+	dev_info(&d->pusbdev->dev, DRV_NAME " %s \n",  __func__);
 	/* efuse not allow driver to switch usb mode */
-	if (pHalData->EEPROMUsbSwitch == _FALSE)
+	if (pHalData->EEPROMUsbSwitch == _FALSE) {
 		goto exit;
+		dev_info(&d->pusbdev->dev, DRV_NAME " no eeprom switch\n");
+	}
 
 	/* registry not allow driver to switch usb mode */
-	if (registry_par->switch_usb_mode == 0)
+	if (registry_par->switch_usb_mode == 0) {
 		goto exit;
+		dev_info(&d->pusbdev->dev, DRV_NAME " no module param\n");
+	}
 
+	dev_info(&d->pusbdev->dev, DRV_NAME " try hw reg HW_VAR_USB_MODE\n");
 	rtw_hal_set_hwreg(Adapter, HW_VAR_USB_MODE, &ret);
 
 exit:

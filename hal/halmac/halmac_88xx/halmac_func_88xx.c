@@ -3356,13 +3356,19 @@ halmac_set_usb_mode_88xx(
 	PHALMAC_API pHalmac_api;
 	HALMAC_USB_MODE current_usb_mode;
 
+	pr_info("*** halmac_set_usb_mode_88xx() ***\n");
+
 	pDriver_adapter = pHalmac_adapter->pDriver_adapter;
 	pHalmac_api = (PHALMAC_API)pHalmac_adapter->pHalmac_api;
 
-	current_usb_mode = (HALMAC_REG_READ_8(pHalmac_adapter, REG_SYS_CFG2 + 3) == 0x20) ? HALMAC_USB_MODE_U3 : HALMAC_USB_MODE_U2;
+	current_usb_mode = HALMAC_REG_READ_8(pHalmac_adapter, REG_SYS_CFG2 + 3);
+	pr_info("halmac_set_usb_mode_88xx() current_usb_mode: %02x\n", (int) current_usb_mode);
+
+	current_usb_mode = (current_usb_mode == 0x20) ? HALMAC_USB_MODE_U3 : HALMAC_USB_MODE_U2;
 
 	/*check if HW supports usb2_usb3 swtich*/
 	usb_temp = HALMAC_REG_READ_32(pHalmac_adapter, REG_PAD_CTRL2);
+	pr_info("halmac_set_usb_mode_88xx() usb_temp: %08x\n", (int) usb_temp);
 	if (_FALSE == (BIT_GET_USB23_SW_MODE_V1(usb_temp) | (usb_temp & BIT_USB3_USB2_TRANSITION))) {
 		PLATFORM_MSG_PRINT(pDriver_adapter, HALMAC_MSG_H2C, HALMAC_DBG_ERR, "HALMAC_HW_USB_MODE usb mode HW unsupport\n");
 		return HALMAC_RET_USB2_3_SWITCH_UNSUPPORT;

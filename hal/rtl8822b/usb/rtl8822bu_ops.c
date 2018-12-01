@@ -98,6 +98,8 @@ static void sethwreg(PADAPTER padapter, u8 variable, u8 *val)
 		rtw_write8(padapter, REG_AMPDU_MAX_TIME_V1_8822B, 0x70);
 		break;
 	case HW_VAR_USB_MODE:
+		dev_info(&pdvobjpriv->pusbdev->dev,
+			 DRV_NAME " switch sethwreg HW_VAR_USB_MODE\n");
 		/* U2 to U3 */
 		if (registry_par->switch_usb_mode == 1) {
 			if (IS_HIGH_SPEED_USB(padapter)) {
