@@ -245,10 +245,6 @@ u32 rtl8822bu_inirp_init(PADAPTER padapter)
 	struct intf_hdl *pintfhdl = &padapter->iopriv.intf;
 	struct recv_priv *precvpriv = &(padapter->recvpriv);
 	u32(*_read_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
-#ifdef CONFIG_USB_INTERRUPT_IN_PIPE
-	HAL_DATA_TYPE *pHalData = GET_HAL_DATA(padapter);
-	u32(*_read_interrupt)(struct intf_hdl *pintfhdl, u32 addr);
-#endif
 
 #ifdef CONFIG_FWLPS_IN_IPS
 	/* Do not sumbit urb repeat */
@@ -278,18 +274,6 @@ u32 rtl8822bu_inirp_init(PADAPTER padapter)
 		precvbuf++;
 		precvpriv->free_recv_buf_queue_cnt--;
 	}
-
-#ifdef CONFIG_USB_INTERRUPT_IN_PIPE
-	if (pdev->RtInPipe[REALTEK_USB_IN_INT_EP_IDX] != 0x05) {
-		status = _FAIL;
-		RTW_INFO("%s =>Warning !! Have not USB Int-IN pipe, RtIntInPipe(%d)!!!\n", __func__, pdev->RtInPipe[REALTEK_USB_IN_INT_EP_IDX]);
-		goto exit;
-	}
-	_read_interrupt = pintfhdl->io_ops._read_interrupt;
-	if (_read_interrupt(pintfhdl, RECV_INT_IN_ADDR) == _FALSE) {
-		status = _FAIL;
-	}
-#endif
 
 exit:
 
