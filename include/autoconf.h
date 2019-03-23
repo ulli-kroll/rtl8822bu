@@ -77,11 +77,6 @@
 /* #define CONFIG_DRVEXT_MODULE	1 */
 
 
-/* #define CONFIG_SUPPORT_USB_INT */
-#ifdef CONFIG_SUPPORT_USB_INT
-	/* #define CONFIG_USB_INTERRUPT_IN_PIPE  1 */
-#endif /* CONFIG_SUPPORT_USB_INT */
-
 /* #ifndef CONFIG_MP_INCLUDED */
 	/* #define CONFIG_IPS	1 */
 	#ifdef CONFIG_IPS
@@ -100,10 +95,8 @@
 		#ifdef CONFIG_POWER_SAVING
 			#define CONFIG_XMIT_THREAD_MODE
 		#endif /* CONFIG_POWER_SAVING */
-		#ifndef CONFIG_SUPPORT_USB_INT
 			#define LPS_RPWM_WAIT_MS 300
 			#define CONFIG_DETECT_CPWM_BY_POLLING
-		#endif /* !CONFIG_SUPPORT_USB_INT */
 		/* #define DBG_CHECK_FW_PS_STATE */
 	#endif /* CONFIG_LPS_LCLK */
 

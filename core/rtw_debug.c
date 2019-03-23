@@ -116,9 +116,6 @@ void dump_drv_cfg(void *sel)
 #endif
 
 #ifdef CONFIG_USB_HCI
-#ifdef CONFIG_SUPPORT_USB_INT
-	RTW_PRINT_SEL(sel, "CONFIG_SUPPORT_USB_INT\n");
-#endif
 #ifdef CONFIG_USB_INTERRUPT_IN_PIPE
 	RTW_PRINT_SEL(sel, "CONFIG_USB_INTERRUPT_IN_PIPE\n");
 #endif

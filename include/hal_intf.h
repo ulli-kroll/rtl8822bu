@@ -321,10 +321,6 @@ struct hal_ops {
 	s32(*interrupt_handler)(_adapter *padapter);
 #endif
 
-#if defined(CONFIG_USB_HCI) && defined(CONFIG_SUPPORT_USB_INT)
-	void	(*interrupt_handler)(_adapter *padapter, u16 pkt_len, u8 *pbuf);
-#endif
-
 #if defined(CONFIG_PCI_HCI)
 	void	(*irp_reset)(_adapter *padapter);
 #endif
@@ -697,9 +693,6 @@ void	rtw_hal_write_rfreg(_adapter *padapter, u32 eRFPath, u32 RegAddr, u32 BitMa
 
 #if defined(CONFIG_PCI_HCI)
 	s32	rtw_hal_interrupt_handler(_adapter *padapter);
-#endif
-#if  defined(CONFIG_USB_HCI) && defined(CONFIG_SUPPORT_USB_INT)
-	void	rtw_hal_interrupt_handler(_adapter *padapter, u16 pkt_len, u8 *pbuf);
 #endif
 
 void	rtw_hal_set_chnl_bw(_adapter *padapter, u8 channel, CHANNEL_WIDTH Bandwidth, u8 Offset40, u8 Offset80);

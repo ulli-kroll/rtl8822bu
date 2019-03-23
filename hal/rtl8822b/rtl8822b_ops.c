@@ -3983,9 +3983,6 @@ void rtl8822b_set_hal_ops(PADAPTER adapter)
 #if defined(CONFIG_PCI_HCI)
 	ops->interrupt_handler = NULL;
 #endif
-#if defined(CONFIG_USB_HCI) && defined(CONFIG_SUPPORT_USB_INT)
-	ops->interrupt_handler = NULL;
-#endif
 #if defined(CONFIG_PCI_HCI)
 	ops->irp_reset = NULL;
 #endif

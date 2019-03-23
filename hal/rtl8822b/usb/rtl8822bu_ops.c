@@ -21,12 +21,6 @@
 #include "../rtl8822b.h"		/* 8822b hal common define. rtl8822bu_init_default_value ...*/
 #include "rtl8822bu.h"			/* 8822bu functions */
 
-#ifdef CONFIG_SUPPORT_USB_INT
-static void rtl8822bu_interrupt_handler(PADAPTER padapter, u16 pkt_len, u8 *pbuf)
-{	
-	}
-#endif /* CONFIG_SUPPORT_USB_INT */
-
 void rtl8822bu_set_hw_type(struct dvobj_priv *pdvobj)
 {
 	pdvobj->HardwareType = HARDWARE_TYPE_RTL8822BU;
@@ -315,9 +309,4 @@ void rtl8822bu_set_hal_ops(PADAPTER padapter)
 #ifdef CONFIG_XMIT_THREAD_MODE
 	ops->xmit_thread_handler = rtl8822bu_xmit_buf_handler;
 #endif
-#ifdef CONFIG_SUPPORT_USB_INT
-	ops->interrupt_handler = rtl8822bu_interrupt_handler;
-#endif
-
-
 }
