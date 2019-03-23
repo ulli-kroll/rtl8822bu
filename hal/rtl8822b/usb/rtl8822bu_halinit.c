@@ -292,31 +292,6 @@ u32 rtl8822bu_inirp_deinit(PADAPTER padapter)
 	return _SUCCESS;
 }
 
-void rtl8822bu_update_interrupt_mask(PADAPTER padapter, u8 bHIMR0 , u32 AddMSR, u32 RemoveMSR)
-{
-	HAL_DATA_TYPE *pHalData;
-	u32 *himr;
-
-	pHalData = GET_HAL_DATA(padapter);
-
-	if (bHIMR0)
-		himr = &(pHalData->IntrMask[0]);
-	else
-		himr = &(pHalData->IntrMask[1]);
-
-	if (AddMSR)
-		*himr |= AddMSR;
-
-	if (RemoveMSR)
-		*himr &= (~RemoveMSR);
-
-	if (bHIMR0)
-		rtw_write32(padapter, REG_HIMR0_8822B, *himr);
-	else
-		rtw_write32(padapter, REG_HIMR1_8822B, *himr);
-
-}
-
 static void config_chip_out_EP(PADAPTER padapter, u8 NumOutPipe)
 {
 	HAL_DATA_TYPE *pHalData = GET_HAL_DATA(padapter);
