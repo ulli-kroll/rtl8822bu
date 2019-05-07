@@ -166,11 +166,7 @@ static void rtl8822b_set_FwKeepAlive_cmd(PADAPTER adapter, u8 benable, u8 pkt_ty
 {
 	u8 h2c[RTW_HALMAC_H2C_MAX_SIZE] = {0};
 	u8 adopt = 1;
-#ifdef CONFIG_PLATFORM_INTEL_BYT
-	u8 check_period = 10;
-#else
 	u8 check_period = 5;
-#endif
 
 
 	RTW_INFO(FUNC_ADPT_FMT ": benable=%d\n", FUNC_ADPT_ARG(adapter), benable);
