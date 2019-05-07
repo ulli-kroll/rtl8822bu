@@ -605,12 +605,6 @@ u8 rtl8822b_read_efuse(PADAPTER adapter)
 	EFUSE_ShadowMapUpdate(adapter, EFUSE_WIFI, 0);
 
 	/* 3. Read Efuse file if necessary */
-#ifdef CONFIG_EFUSE_CONFIG_FILE
-	if (check_phy_efuse_tx_power_info_valid(adapter) == _FALSE) {
-		if (Hal_readPGDataFromConfigFile(adapter) != _SUCCESS)
-			RTW_INFO("%s: <WARN> invalid phy efuse and read from file fail, will use driver default!!\n", __FUNCTION__);
-	}
-#endif /* CONFIG_EFUSE_CONFIG_FILE */
 
 	/* 4. Parse Efuse data */
 	valid = Hal_EfuseParseIDCode(adapter, efuse_map);

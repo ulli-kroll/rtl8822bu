@@ -4613,68 +4613,6 @@ ssize_t proc_set_xmit_block(struct file *file, const char __user *buffer, size_t
 #endif
 
 #include <hal_data.h>
-int proc_get_efuse_map(struct seq_file *m, void *v)
-{
-	struct net_device *dev = m->private;
-	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
-	PHAL_DATA_TYPE pHalData = GET_HAL_DATA(padapter);
-	struct pwrctrl_priv *pwrctrlpriv  = adapter_to_pwrctl(padapter);
-	PEFUSE_HAL pEfuseHal = &pHalData->EfuseHal;
-	int i, j;
-	u8 ips_mode = IPS_NUM;
-	u16 mapLen;
-
-	EFUSE_GetEfuseDefinition(padapter, EFUSE_WIFI, TYPE_EFUSE_MAP_LEN, (void *)&mapLen, _FALSE);
-	if (mapLen > EFUSE_MAX_MAP_LEN)
-		mapLen = EFUSE_MAX_MAP_LEN;
-
-	ips_mode = pwrctrlpriv->ips_mode;
-	rtw_pm_set_ips(padapter, IPS_NONE);
-
-	if (pHalData->efuse_file_status == EFUSE_FILE_LOADED) {
-		RTW_PRINT_SEL(m, "File eFuse Map loaded! file path:%s\nDriver eFuse Map From File\n", EFUSE_MAP_PATH);
-		if (pHalData->bautoload_fail_flag)
-			RTW_PRINT_SEL(m, "File Autoload fail!!!\n");
-	} else if (pHalData->efuse_file_status ==  EFUSE_FILE_FAILED) {
-		RTW_PRINT_SEL(m, "Open File eFuse Map Fail ! file path:%s\nDriver eFuse Map From Default\n", EFUSE_MAP_PATH);
-		if (pHalData->bautoload_fail_flag)
-			RTW_PRINT_SEL(m, "HW Autoload fail!!!\n");
-	} else {
-		RTW_PRINT_SEL(m, "Driver eFuse Map From HW\n");
-		if (pHalData->bautoload_fail_flag)
-			RTW_PRINT_SEL(m, "HW Autoload fail!!!\n");
-	}
-	for (i = 0; i < mapLen; i += 16) {
-		RTW_PRINT_SEL(m, "0x%02x\t", i);
-		for (j = 0; j < 8; j++)
-			RTW_PRINT_SEL(m, "%02X ", pHalData->efuse_eeprom_data[i + j]);
-		RTW_PRINT_SEL(m, "\t");
-		for (; j < 16; j++)
-			RTW_PRINT_SEL(m, "%02X ", pHalData->efuse_eeprom_data[i + j]);
-		RTW_PRINT_SEL(m, "\n");
-	}
-
-	if (rtw_efuse_map_read(padapter, 0, mapLen, pEfuseHal->fakeEfuseInitMap) == _FAIL) {
-		RTW_PRINT_SEL(m, "WARN - Read Realmap Failed\n");
-		return 0;
-	}
-
-	RTW_PRINT_SEL(m, "\n");
-	RTW_PRINT_SEL(m, "HW eFuse Map\n");
-	for (i = 0; i < mapLen; i += 16) {
-		RTW_PRINT_SEL(m, "0x%02x\t", i);
-		for (j = 0; j < 8; j++)
-			RTW_PRINT_SEL(m, "%02X ", pEfuseHal->fakeEfuseInitMap[i + j]);
-		RTW_PRINT_SEL(m, "\t");
-		for (; j < 16; j++)
-			RTW_PRINT_SEL(m, "%02X ", pEfuseHal->fakeEfuseInitMap[i + j]);
-		RTW_PRINT_SEL(m, "\n");
-	}
-
-	rtw_pm_set_ips(padapter, ips_mode);
-
-	return 0;
-}
 
 ssize_t proc_set_efuse_map(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
 {

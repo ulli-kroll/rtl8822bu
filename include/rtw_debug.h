@@ -591,7 +591,6 @@ int proc_get_tx_auth(struct seq_file *m, void *v);
 
 #endif /* CONFIG_PROC_DEBUG */
 
-int proc_get_efuse_map(struct seq_file *m, void *v);
 ssize_t proc_set_efuse_map(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data);
 
 #ifdef CONFIG_MCC_MODE
