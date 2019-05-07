@@ -350,6 +350,4 @@ bool rtw_cfg80211_pwr_mgmt(_adapter *adapter);
 #endif
 #endif
 
-#include "rtw_cfgvendor.h"
-
 #endif /* __IOCTL_CFG80211_H__ */
