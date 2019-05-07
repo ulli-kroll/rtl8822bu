@@ -2893,16 +2893,9 @@ void EFUSE_ShadowMapUpdate(
 	if (pHalData->bautoload_fail_flag == _TRUE)
 		_rtw_memset(pHalData->efuse_eeprom_data, 0xFF, mapLen);
 	else {
-#ifdef CONFIG_ADAPTOR_INFO_CACHING_FILE
-		if (_SUCCESS != retriveAdaptorInfoFile(pAdapter->registrypriv.adaptor_info_caching_file_path, pHalData->efuse_eeprom_data)) {
-#endif
 
 			Efuse_ReadAllMap(pAdapter, efuseType, pHalData->efuse_eeprom_data, bPseudoTest);
 
-#ifdef CONFIG_ADAPTOR_INFO_CACHING_FILE
-			storeAdaptorInfoFile(pAdapter->registrypriv.adaptor_info_caching_file_path, pHalData->efuse_eeprom_data);
-		}
-#endif
 	}
 
 	/* PlatformMoveMemory((PVOID)&pHalData->EfuseMap[EFUSE_MODIFY_MAP][0], */
@@ -2947,60 +2940,6 @@ u8 mac_hidden_wl_func_to_hal_wl_func(u8 func)
 }
 
 #ifdef PLATFORM_LINUX
-#ifdef CONFIG_ADAPTOR_INFO_CACHING_FILE
-/* #include <rtw_eeprom.h> */
-
-int isAdaptorInfoFileValid(void)
-{
-	return _TRUE;
-}
-
-int storeAdaptorInfoFile(char *path, u8 *efuse_data)
-{
-	int ret = _SUCCESS;
-
-	if (path && efuse_data) {
-		ret = rtw_store_to_file(path, efuse_data, EEPROM_MAX_SIZE_512);
-		if (ret == EEPROM_MAX_SIZE)
-			ret = _SUCCESS;
-		else
-			ret = _FAIL;
-	} else {
-		RTW_INFO("%s NULL pointer\n", __FUNCTION__);
-		ret =  _FAIL;
-	}
-	return ret;
-}
-
-int retriveAdaptorInfoFile(char *path, u8 *efuse_data)
-{
-	int ret = _SUCCESS;
-	mm_segment_t oldfs;
-	struct file *fp;
-
-	if (path && efuse_data) {
-
-		ret = rtw_retrieve_from_file(path, efuse_data, EEPROM_MAX_SIZE);
-
-		if (ret == EEPROM_MAX_SIZE)
-			ret = _SUCCESS;
-		else
-			ret = _FAIL;
-
-#if 0
-		if (isAdaptorInfoFileValid())
-			return 0;
-		else
-			return _FAIL;
-#endif
-
-	} else {
-		RTW_INFO("%s NULL pointer\n", __FUNCTION__);
-		ret = _FAIL;
-	}
-	return ret;
-}
-#endif /* CONFIG_ADAPTOR_INFO_CACHING_FILE */
 
 u8 rtw_efuse_file_read(PADAPTER padapter, u8 *filepatch, u8 *buf, u32 len)
 {
