@@ -1642,7 +1642,7 @@ int WMM_param_handler(_adapter *padapter, PNDIS_802_11_VARIABLE_IEs	pIE)
 	return _TRUE;
 
 #if 0
-	if (pregpriv->wifi_spec == 1) {
+	if (0 == 1) {
 		if (pmlmeinfo->WMM_enable == 1) {
 			/* todo: compare the parameter set count & decide wheher to update or not */
 			return _FAIL;
@@ -1761,7 +1761,7 @@ void WMMOnAssocRsp(_adapter *padapter)
 		inx[2] = 2;
 		inx[3] = 3;
 
-		if (pregpriv->wifi_spec == 1) {
+		if (0 == 1) {
 			u32	j, tmp, change_inx = _FALSE;
 
 			/* entry indx: 0->vo, 1->vi, 2->be, 3->bk. */

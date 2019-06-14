@@ -795,7 +795,7 @@ static void update_attrib_vcs_info(_adapter *padapter, struct xmit_frame *pxmitf
 	/* (2) If there are more than one frag in  this MSDU, only the first frag uses protection frame. */
 	/*		Other fragments are protected by previous fragment. */
 	/*		So we only need to check the length of first fragment. */
-	if (pmlmeext->cur_wireless_mode < WIRELESS_11_24N  || padapter->registrypriv.wifi_spec) {
+	if (pmlmeext->cur_wireless_mode < WIRELESS_11_24N  || 0) {
 		if (sz > padapter->registrypriv.rts_thresh)
 			pattrib->vcs_mode = RTS_CTS;
 		else {
@@ -3540,7 +3540,7 @@ struct xmit_frame *rtw_get_xframe(struct xmit_priv *pxmitpriv, int *num_frame)
 	*num_frame = 0;
 
 	/*No amsdu when wifi_spec on*/
-	if (pregpriv->wifi_spec == 1) {
+	if (0 == 1) {
 		return NULL;
 	}
 
@@ -3596,7 +3596,7 @@ struct xmit_frame *rtw_dequeue_xframe(struct xmit_priv *pxmitpriv, struct hw_xmi
 	inx[2] = 2;
 	inx[3] = 3;
 
-	if (pregpriv->wifi_spec == 1) {
+	if (0 == 1) {
 		int j, tmp, acirp_cnt[4];
 #if 0
 		if (flags < XMIT_QUEUE_ENTRY) {
@@ -4490,7 +4490,7 @@ inline bool xmitframe_hiq_filter(struct xmit_frame *xmitframe)
 
 	if (rtw_get_intf_type(adapter) != RTW_PCIE) {
 
-		if (adapter->registrypriv.wifi_spec == 1)
+		if (0 == 1)
 			allow = _TRUE;
 		else if (registry->hiq_filter == RTW_HIQ_FILTER_ALLOW_SPECIAL) {
 

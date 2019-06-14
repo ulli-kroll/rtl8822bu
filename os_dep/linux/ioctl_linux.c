@@ -6990,7 +6990,7 @@ static int rtw_dbg_port(struct net_device *dev,
 #endif
 		case 0x14: { /* get wifi_spec */
 			struct registry_priv	*pregpriv = &padapter->registrypriv;
-			RTW_INFO("get wifi_spec=%d\n", pregpriv->wifi_spec);
+			RTW_INFO("get wifi_spec=%d\n", 0);
 
 		}
 			break;

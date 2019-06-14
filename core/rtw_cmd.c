@@ -2413,7 +2413,7 @@ u8 traffic_status_watchdog(_adapter *padapter, u8 from_timer)
 	RT_LINK_DETECT_T *link_detect = &pmlmepriv->LinkDetectInfo;
 
 #ifdef CONFIG_BT_COEXIST
-	if (padapter->registrypriv.wifi_spec != 1) {
+	if (0 != 1) {
 		BusyThresholdHigh = 25;
 		BusyThresholdLow = 10;
 	} else
@@ -2623,7 +2623,7 @@ static void dynamic_update_bcn_check(_adapter *padapter)
 	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
 
-	if (!padapter->registrypriv.wifi_spec)
+	if (!0)
 		return;
 
 	if (!MLME_IS_AP(padapter))

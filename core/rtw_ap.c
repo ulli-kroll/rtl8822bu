@@ -428,7 +428,7 @@ void	expire_timeout_chk(_adapter *padapter)
 		if (psta->expire_to <= 0) {
 			struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
 
-			if (padapter->registrypriv.wifi_spec == 1) {
+			if (0 == 1) {
 				psta->expire_to = pstapriv->expire_to;
 				continue;
 			}
@@ -1034,7 +1034,7 @@ static void rtw_set_hw_wmm_param(_adapter *padapter)
 		inx[2] = 2;
 		inx[3] = 3;
 
-		if (pregpriv->wifi_spec == 1) {
+		if (0 == 1) {
 			u32	j, tmp, change_inx = _FALSE;
 
 			/* entry indx: 0->vo, 1->vi, 2->be, 3->bk. */
@@ -1135,7 +1135,7 @@ static void rtw_ap_check_scan(_adapter *padapter)
 	_enter_critical_bh(&(pmlmepriv->scanned_queue.lock), &irqL);
 	phead = get_list_head(queue);
 	if (rtw_end_of_queue_search(phead, get_next(phead)) == _TRUE)
-		if (padapter->registrypriv.wifi_spec) {
+		if (0) {
 			do_scan = _TRUE;
 			reason |= RTW_AUTO_SCAN_REASON_2040_BSS;
 		}
@@ -1196,7 +1196,7 @@ static void rtw_ap_check_scan(_adapter *padapter)
 					if (_FALSE == ATOMIC_READ(&pmlmepriv->olbc_ht))
 						ATOMIC_SET(&pmlmepriv->olbc_ht, _TRUE);
 					
-					if (padapter->registrypriv.wifi_spec)
+					if (0)
 						RTW_INFO("%s: %s is a/b/g ap\n", __func__, pnetwork->network.Ssid.Ssid);
 				}
 			}
@@ -1448,7 +1448,7 @@ update_beacon:
 	}
 
 	/*Set EDCA param reg after update cur_wireless_mode & update_capinfo*/
-	if (pregpriv->wifi_spec == 1)
+	if (0 == 1)
 		rtw_set_hw_wmm_param(padapter);
 
 	/*pmlmeext->bstart_bss = _TRUE;*/
@@ -1941,7 +1941,7 @@ int rtw_check_beacon_data(_adapter *padapter, u8 *pbuf,  int len)
 	}
 #endif /* CONFIG_80211AC_VHT */
 
-	if(pbss_network->Configuration.DSConfig <= 14 && padapter->registrypriv.wifi_spec == 1) {
+	if(pbss_network->Configuration.DSConfig <= 14 && 0 == 1) {
 		uint len = 0;
 
 		SET_EXT_CAPABILITY_ELE_BSS_COEXIST(pmlmepriv->ext_capab_ie_data, 1);
@@ -2296,7 +2296,7 @@ u8 rtw_ap_bmc_frames_hdl(_adapter *padapter)
 	bool update_tim = _FALSE;
 
 
-	if (padapter->registrypriv.wifi_spec != 1)
+	if (0 != 1)
 		return H2C_SUCCESS;
 
 

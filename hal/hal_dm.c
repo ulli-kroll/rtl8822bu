@@ -92,7 +92,7 @@ void Init_ODM_ComInfo(_adapter *adapter)
 
 	odm_cmn_info_init(pDM_Odm, ODM_CMNINFO_PATCH_ID, pHalData->CustomerID);
 
-	odm_cmn_info_init(pDM_Odm, ODM_CMNINFO_BWIFI_TEST, adapter->registrypriv.wifi_spec);
+	odm_cmn_info_init(pDM_Odm, ODM_CMNINFO_BWIFI_TEST, 0);
 
 
 	if (pHalData->rf_type == RF_1T1R)
@@ -282,7 +282,7 @@ void rtw_hal_turbo_edca(_adapter *adapter)
 		return;
 	}
 
-	if ((pregpriv->wifi_spec == 1)) { /* || (pmlmeinfo->HT_enable == 0)) */
+	if ((0 == 1)) { /* || (pmlmeinfo->HT_enable == 0)) */
 		precvpriv->is_any_non_be_pkts = _FALSE;
 		return;
 	}

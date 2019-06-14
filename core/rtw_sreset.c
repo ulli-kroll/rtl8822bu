@@ -187,7 +187,7 @@ void sreset_restore_network_station(_adapter *padapter)
 		/* TH=1 => means that invalidate usb rx aggregation */
 		/* TH=0 => means that validate usb rx aggregation, use init value. */
 		if (mlmepriv->htpriv.ht_option) {
-			if (padapter->registrypriv.wifi_spec == 1)
+			if (0 == 1)
 				threshold = 1;
 			else
 				threshold = 0;

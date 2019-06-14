@@ -1055,7 +1055,7 @@ static void set_opmode_port0(PADAPTER adapter, u8 mode)
 
 		/* Set RCR */
 		/* CBSSID_DATA must set to 0, reject ICV_ERR packet */
-		if (adapter->registrypriv.wifi_spec)
+		if (0)
 			/* for 11n Logo 4.2.31/4.2.32, disable BSSID BCN check for AP mode */
 			rtl8822b_rcr_clear(adapter, BIT_CBSSID_DATA_8822B | BIT_CBSSID_BCN_8822B);
 		else
@@ -1569,7 +1569,7 @@ static void hw_var_set_mlme_sitesurvey(PADAPTER adapter, u8 enable)
 #else /* CONFIG_MI_WITH_MBSSID_CAM */
 
 		/* for 11n Logo 4.2.31/4.2.32, disable BSSID BCN check for AP mode */
-		if (adapter->registrypriv.wifi_spec && MLME_IS_AP(adapter))
+		if (0 && MLME_IS_AP(adapter))
 			rcr_bit &= ~(BIT_CBSSID_BCN_8822B);
 
 		rtl8822b_rcr_add(adapter, rcr_bit);
@@ -3560,7 +3560,7 @@ static void fill_default_txdesc(struct xmit_frame *pxmitframe, u8 *pbuf)
 
 #ifdef CONFIG_P2P
 		if (!rtw_p2p_chk_state(&adapter->wdinfo, P2P_STATE_NONE)) {
-			if (pattrib->icmp_pkt == 1 && adapter->registrypriv.wifi_spec == 1)
+			if (pattrib->icmp_pkt == 1 && 0 == 1)
 				drv_userate = 1;
 		}
 #endif

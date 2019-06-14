@@ -1087,7 +1087,7 @@ void rtw_add_network(_adapter *adapter, WLAN_BSSID_EX *pnetwork)
 	/* _enter_critical_bh(&queue->lock, &irqL); */
 
 #if defined(CONFIG_P2P) && defined(CONFIG_P2P_REMOVE_GROUP_INFO)
-	if (adapter->registrypriv.wifi_spec == 0)
+	if (0 == 0)
 		rtw_bss_ex_del_p2p_attr(pnetwork, P2P_ATTR_GROUP_INFO);
 #endif
 
@@ -1130,7 +1130,7 @@ int rtw_is_desired_network(_adapter *adapter, struct wlan_network *pnetwork)
 		else
 			return _FALSE;
 	}
-	if (adapter->registrypriv.wifi_spec == 1) { /* for  correct flow of 8021X  to do.... */
+	if (0 == 1) { /* for  correct flow of 8021X  to do.... */
 		u8 *p = NULL;
 		uint ie_len = 0;
 
@@ -2580,7 +2580,7 @@ void rtw_stadel_event_callback(_adapter *adapter, u8 *pbuf)
 		else
 			pmlmepriv->ftpriv.ft_roam_on_expired = _FALSE;
 #endif
-		if (adapter->registrypriv.wifi_spec == 1)
+		if (0 == 1)
 			roam = _FALSE;
 		else if (reason == WLAN_REASON_EXPIRATION_CHK && rtw_chk_roam_flags(adapter, RTW_ROAM_ON_EXPIRED))
 			roam = _TRUE;
@@ -2822,7 +2822,7 @@ void rtw_mlme_reset_auto_scan_int(_adapter *adapter, u8 *reason)
 	if (hal_chk_bw_cap(adapter, BW_CAP_40M)
 	    && is_client_associated_to_ap(adapter) == _TRUE
 	    && u_ch >= 1 && u_ch <= 14
-	    && adapter->registrypriv.wifi_spec
+	    && 0
 	    /* TODO: AP Connected is 40MHz capability? */
 	   ) {
 		interval_ms = rtw_min(interval_ms, 60 * 1000);
@@ -3913,7 +3913,7 @@ void rtw_joinbss_reset(_adapter *padapter)
 	/* TH=1 => means that invalidate usb rx aggregation */
 	/* TH=0 => means that validate usb rx aggregation, use init value. */
 	if (phtpriv->ht_option) {
-		if (padapter->registrypriv.wifi_spec == 1)
+		if (0 == 1)
 			threshold = 1;
 		else
 			threshold = 0;
@@ -3940,7 +3940,7 @@ void	rtw_ht_use_default_setting(_adapter *padapter)
 	BOOLEAN		bHwSupportBeamformer = _FALSE, bHwSupportBeamformee = _FALSE;
 #endif /* CONFIG_BEAMFORMING */
 
-	if (pregistrypriv->wifi_spec)
+	if (0)
 		phtpriv->bss_coexist = 1;
 	else
 		phtpriv->bss_coexist = 0;
@@ -4105,7 +4105,7 @@ unsigned int rtw_restructure_ht_ie(_adapter *padapter, u8 *in_ie, u8 *out_ie, ui
 		if ((pregistrypriv->rx_stbc == 0x3) ||							/* enable for 2.4/5 GHz */
 		    ((channel <= 14) && (pregistrypriv->rx_stbc == 0x1)) ||		/* enable for 2.4GHz */
 		    ((channel > 14) && (pregistrypriv->rx_stbc == 0x2)) ||		/* enable for 5GHz */
-		    (pregistrypriv->wifi_spec == 1)) {
+		    (0 == 1)) {
 			/* HAL_DEF_RX_STBC means STBC RX spatial stream, todo: VHT 4 streams */
 			rtw_hal_get_def_var(padapter, HAL_DEF_RX_STBC, (u8 *)(&rx_stbc_nss));
 			SET_HT_CAP_ELE_RX_STBC(&ht_capie, rx_stbc_nss);
@@ -4126,7 +4126,7 @@ unsigned int rtw_restructure_ht_ie(_adapter *padapter, u8 *in_ie, u8 *out_ie, ui
 		break;
 	case 2:
 		#ifdef CONFIG_DISABLE_MCS13TO15
-		if (((cbw40_enable == 1) && (operation_bw == CHANNEL_WIDTH_40)) && (pregistrypriv->wifi_spec != 1))
+		if (((cbw40_enable == 1) && (operation_bw == CHANNEL_WIDTH_40)) && (0 != 1))
 			set_mcs_rate_by_mask(ht_capie.supp_mcs_set, MCS_RATE_2R_13TO15_OFF);
 		else
 		#endif
@@ -4265,7 +4265,7 @@ void rtw_update_ht_cap(_adapter *padapter, u8 *pie, uint ie_len, u8 channel)
 
 	/* maybe needs check if ap supports rx ampdu. */
 	if ((phtpriv->ampdu_enable == _FALSE) && (pregistrypriv->ampdu_enable == 1)) {
-		if (pregistrypriv->wifi_spec == 1) {
+		if (0 == 1) {
 			/* remove this part because testbed AP should disable RX AMPDU */
 			/* phtpriv->ampdu_enable = _FALSE; */
 			phtpriv->ampdu_enable = _TRUE;
@@ -4328,7 +4328,7 @@ void rtw_update_ht_cap(_adapter *padapter, u8 *pie, uint ie_len, u8 channel)
 			break;
 		case 2:
 			#ifdef CONFIG_DISABLE_MCS13TO15
-			if (pmlmeext->cur_bwmode == CHANNEL_WIDTH_40 && pregistrypriv->wifi_spec != 1)
+			if (pmlmeext->cur_bwmode == CHANNEL_WIDTH_40 && 0 != 1)
 				set_mcs_rate_by_mask(pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate, MCS_RATE_2R_13TO15_OFF);
 			else
 			#endif

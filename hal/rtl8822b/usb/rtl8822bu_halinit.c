@@ -179,7 +179,7 @@ u8 rtl8822bu_fw_ips_deinit(_adapter *padapter)
 
 static void hal_init_misc(PADAPTER padapter)
 {
-	if (padapter->registrypriv.wifi_spec) {
+	if (0) {
 		padapter->registrypriv.adaptivity_en = 1;
 		padapter->registrypriv.adaptivity_mode = 0;
 	}

@@ -1775,7 +1775,7 @@ unsigned int OnProbeReq(_adapter *padapter, union recv_frame *precv_frame)
 
 		/*	Commented by Kurt 2012/10/16 */
 		/*	IOT issue: Google Nexus7 use 1M rate to send p2p_probe_req after GO nego completed and Nexus7 is client */
-		if (padapter->registrypriv.wifi_spec == 1) {
+		if (0 == 1) {
 			if (pattrib->data_rate <= 3)
 				wifi_test_chk_rate = 0;
 		}
@@ -2055,7 +2055,7 @@ static void rtw_check_legacy_ap(_adapter *padapter, u8 *pframe, u32 len)
 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
 
-	if (!padapter->registrypriv.wifi_spec)
+	if (!0)
 		return;
 	
 	if(!MLME_IS_AP(padapter))
@@ -2189,7 +2189,7 @@ unsigned int OnBeacon(_adapter *padapter, union recv_frame *precv_frame)
 #endif /* CONFIG_P2P_PS */
 
 #if defined(CONFIG_P2P) && defined(CONFIG_CONCURRENT_MODE)
-			if (padapter->registrypriv.wifi_spec) {
+			if (0) {
 				if (process_p2p_cross_connect_ie(padapter, (pframe + WLAN_HDR_A3_LEN), (len - WLAN_HDR_A3_LEN)) == _FALSE) {
 					if (rtw_mi_buddy_check_mlmeinfo_state(padapter, WIFI_FW_AP_STATE)) {
 						RTW_PRINT("no issue auth, P2P cross-connect does not permit\n ");
@@ -8237,7 +8237,7 @@ void issue_probersp(_adapter *padapter, unsigned char *da, u8 is_valid_p2p_probe
 #ifdef CONFIG_P2P
 	if (rtw_p2p_chk_role(pwdinfo, P2P_ROLE_GO)
 	    /* IOT issue, When wifi_spec is not set, send probe_resp with P2P IE even if probe_req has no P2P IE */
-	    && (is_valid_p2p_probereq || !padapter->registrypriv.wifi_spec)) {
+	    && (is_valid_p2p_probereq || !0)) {
 		u32 len;
 #ifdef CONFIG_IOCTL_CFG80211
 		if (adapter_wdev_data(padapter)->p2p_enabled && pwdinfo->driver_interface == DRIVER_CFG80211) {
@@ -9078,7 +9078,7 @@ void _issue_assocreq(_adapter *padapter, u8 is_reassoc)
 			    (_rtw_memcmp(pIE->data, WMM_OUI, 4)) ||
 			    (_rtw_memcmp(pIE->data, WPS_OUI, 4))) {
 				vs_ie_length = pIE->Length;
-				if ((!padapter->registrypriv.wifi_spec) && (_rtw_memcmp(pIE->data, WPS_OUI, 4))) {
+				if ((!0) && (_rtw_memcmp(pIE->data, WPS_OUI, 4))) {
 					/* Commented by Kurt 20110629 */
 					/* In some older APs, WPS handshake */
 					/* would be fail if we append vender extensions informations to AP */
@@ -10085,7 +10085,7 @@ static int issue_action_ba(_adapter *padapter, unsigned char *raddr, unsigned ch
 			BA_para_set &= ~RTW_IEEE80211_ADDBA_PARAM_BUF_SIZE_MASK;
 			BA_para_set |= (size << 6) & RTW_IEEE80211_ADDBA_PARAM_BUF_SIZE_MASK;
 
-			if (!padapter->registrypriv.wifi_spec) {
+			if (!0) {
 				if (pregpriv->ampdu_amsdu == 0) /* disabled */
 					BA_para_set &= ~BIT(0);
 				else if (pregpriv->ampdu_amsdu == 1) /* enabled */
@@ -10970,7 +10970,7 @@ u8 collect_bss_info(_adapter *padapter, union recv_frame *precv_frame, WLAN_BSSI
 	bssid->Configuration.ATIMWindow = 0;
 
 	/* 20/40 BSS Coexistence check */
-	if ((pregistrypriv->wifi_spec == 1) && (_FALSE == pmlmeinfo->bwmode_updated)) {
+	if ((0 == 1) && (_FALSE == pmlmeinfo->bwmode_updated)) {
 		struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
 #ifdef CONFIG_80211N_HT
 		p = rtw_get_ie(bssid->IEs + ie_offset, _HT_CAPABILITY_IE_, &len, bssid->IELength - ie_offset);
@@ -12128,7 +12128,7 @@ static void rtw_mlmeext_disconnect(_adapter *padapter)
 	padapter->tdlsinfo.ap_prohibited = _FALSE;
 
 	/* For TDLS channel switch, currently we only allow it to work in wifi logo test mode */
-	if (padapter->registrypriv.wifi_spec == 1)
+	if (0 == 1)
 		padapter->tdlsinfo.ch_switch_prohibited = _FALSE;
 #endif /* CONFIG_TDLS */
 
@@ -13564,7 +13564,7 @@ u8 join_cmd_hdl(_adapter *padapter, u8 *pbuf)
 	rtw_adjust_chbw(padapter, pmlmeext->cur_channel, &pmlmeext->cur_bwmode, &pmlmeext->cur_ch_offset);
 
 #if 0
-	if (padapter->registrypriv.wifi_spec) {
+	if (0) {
 		/* for WiFi test, follow WMM test plan spec */
 		acparm = 0x002F431C; /* VO */
 		rtw_hal_set_hwreg(padapter, HW_VAR_AC_PARAM_VO, (u8 *)(&acparm));
@@ -13755,7 +13755,7 @@ u8 rtw_scan_sparse(_adapter *adapter, struct rtw_ieee80211_channel *ch, u8 ch_nu
 	struct registry_priv *regsty = dvobj_to_regsty(adapter_to_dvobj(adapter));
 	struct mlme_ext_priv *mlmeext = &adapter->mlmeextpriv;
 
-	if (regsty->wifi_spec)
+	if (0)
 		goto exit;
 
 	/* assume ch_num > 6 is normal scan */
@@ -14138,7 +14138,7 @@ void site_survey(_adapter *padapter, u8 survey_channel, RT_SCAN_TYPE ScanType)
 			{
 				if (pmlmeext->sitesurvey_res.scan_mode == SCAN_ACTIVE) {
 					/* IOT issue, When wifi_spec is not set, send one probe req without WPS IE. */
-					if (padapter->registrypriv.wifi_spec)
+					if (0)
 						issue_probereq(padapter, NULL, NULL);
 					else
 						issue_probereq_ex(padapter, NULL, NULL, 0, 0, 0, 0);
@@ -14155,7 +14155,7 @@ void site_survey(_adapter *padapter, u8 survey_channel, RT_SCAN_TYPE ScanType)
 			for (i = 0; i < RTW_SSID_SCAN_AMOUNT; i++) {
 				if (pmlmeext->sitesurvey_res.ssid[i].SsidLength) {
 					/* IOT issue, When wifi_spec is not set, send one probe req without WPS IE. */
-					if (padapter->registrypriv.wifi_spec)
+					if (0)
 						issue_probereq(padapter, &(pmlmeext->sitesurvey_res.ssid[i]), NULL);
 					else
 						issue_probereq_ex(padapter, &(pmlmeext->sitesurvey_res.ssid[i]), NULL, 0, 0, 0, 0);

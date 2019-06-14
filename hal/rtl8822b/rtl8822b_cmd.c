@@ -452,7 +452,7 @@ void rtl8822b_set_FwPwrMode_cmd(PADAPTER adapter, u8 psmode)
 	}
 #endif /* CONFIG_P2P */
 
-	if (adapter->registrypriv.wifi_spec == 1) {
+	if (0 == 1) {
 		awake_intvl = 2;
 		rlbm = 1;
 	}

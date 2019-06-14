@@ -224,11 +224,6 @@ module_param(rtw_rf_config, int, 0644);
 int rtw_check_hw_status = 0;
 
 int rtw_low_power = 0;
-#ifdef CONFIG_WIFI_TEST
-	int rtw_wifi_spec = 1;/* for wifi test */
-#else
-	int rtw_wifi_spec = 0;
-#endif
 
 #ifdef CONFIG_DEFAULT_PATTERNS_EN
 	bool	rtw_support_default_patterns = _TRUE;
@@ -402,7 +397,6 @@ module_param(rtw_lowrate_two_xmit, int, 0644);
 module_param(rtw_power_mgnt, int, 0644);
 module_param(rtw_smart_ps, int, 0644);
 module_param(rtw_low_power, int, 0644);
-module_param(rtw_wifi_spec, int, 0644);
 
 module_param(rtw_full_ch_in_p2p_handshake, int, 0644);
 module_param(rtw_antdiv_cfg, int, 0644);
@@ -827,8 +821,6 @@ uint loadparam(_adapter *padapter)
 	registry_par->low_power = (u8)rtw_low_power;
 
 	registry_par->check_hw_status = (u8)rtw_check_hw_status;
-
-	registry_par->wifi_spec = (u8)rtw_wifi_spec;
 
 	if (strlen(rtw_country_code) != 2
 		|| is_alpha(rtw_country_code[0]) == _FALSE

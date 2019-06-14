@@ -370,7 +370,7 @@ void dm_InterruptMigration(PADAPTER adapter)
 	 * <Roger_Notes> Currently we use busy traffic for reference instead of RxIntOK counts to prevent non-linear Rx statistics
 	 * when interrupt migration is set before. 2010.03.05.
 	 */
-	if (!adapter->registrypriv.wifi_spec
+	if (!0
 	    && (check_fwstate(pmlmepriv, _FW_LINKED) == _TRUE)
 	    && pmlmepriv->LinkDetectInfo.bHigherBusyTraffic) {
 		IntMtToSet = _TRUE;
