@@ -1150,42 +1150,6 @@ out:
 	return err;
 }
 
-#ifdef CONFIG_SUPPORT_TRX_SHARED
-static inline HALMAC_RX_FIFO_EXPANDING_MODE _trx_share_mode_drv2halmac(u8 trx_share_mode)
-{
-	if (0 == trx_share_mode)
-		return HALMAC_RX_FIFO_EXPANDING_MODE_DISABLE;
-	else if (1 == trx_share_mode)
-		return HALMAC_RX_FIFO_EXPANDING_MODE_1_BLOCK;
-	else if (2 == trx_share_mode)
-		return HALMAC_RX_FIFO_EXPANDING_MODE_2_BLOCK;
-	else if (3 == trx_share_mode)
-		return HALMAC_RX_FIFO_EXPANDING_MODE_3_BLOCK;
-	else
-		return HALMAC_RX_FIFO_EXPANDING_MODE_DISABLE;
-}
-static HALMAC_RX_FIFO_EXPANDING_MODE _rtw_get_trx_share_mode(_adapter *adapter)
-{
-	struct registry_priv  *registry_par = &adapter->registrypriv;
-
-	return _trx_share_mode_drv2halmac(registry_par->trx_share_mode);
-}
-void dump_trx_share_mode(void *sel, _adapter *adapter)
-{
-	struct registry_priv  *registry_par = &adapter->registrypriv;
-	u8 mode =  _trx_share_mode_drv2halmac(registry_par->trx_share_mode);
-
-	if (HALMAC_RX_FIFO_EXPANDING_MODE_1_BLOCK == mode)
-		RTW_PRINT_SEL(sel, "TRx share mode : %s\n", "RX_FIFO_EXPANDING_MODE_1");
-	else if (HALMAC_RX_FIFO_EXPANDING_MODE_2_BLOCK == mode)
-		RTW_PRINT_SEL(sel, "TRx share mode : %s\n", "RX_FIFO_EXPANDING_MODE_2");
-	else if (HALMAC_RX_FIFO_EXPANDING_MODE_3_BLOCK == mode)
-		RTW_PRINT_SEL(sel, "TRx share mode : %s\n", "RX_FIFO_EXPANDING_MODE_3");
-	else
-		RTW_PRINT_SEL(sel, "TRx share mode : %s\n", "DISABLE");
-}
-#endif
-
 static u8 _get_drv_rsvd_page(HALMAC_DRV_RSVD_PG_NUM rsvd_page_number)
 {
 	if (HALMAC_RSVD_PG_NUM16 == rsvd_page_number)
@@ -1209,11 +1173,6 @@ static HALMAC_TRX_MODE _choose_trx_mode(struct dvobj_priv *d)
 
 	if (p->registrypriv.wifi_spec)
 		return HALMAC_TRX_MODE_WMM;
-
-#ifdef CONFIG_SUPPORT_TRX_SHARED
-	if (_rtw_get_trx_share_mode(p))
-		return HALMAC_TRX_MODE_TRXSHARE;
-#endif
 
 	return HALMAC_TRX_MODE_NORMAL;
 }
@@ -1404,12 +1363,6 @@ static HALMAC_RET_STATUS init_mac_flow(struct dvobj_priv *d)
 	hal = GET_HAL_DATA(p);
 	halmac = dvobj_to_halmac(d);
 	api = HALMAC_GET_API(halmac);
-
-#ifdef CONFIG_SUPPORT_TRX_SHARED
-	status = api->halmac_cfg_rx_fifo_expanding_mode(halmac, _rtw_get_trx_share_mode(p));
-	if (status != HALMAC_RET_SUCCESS)
-		goto out;
-#endif
 
 #ifdef CONFIG_PNO_SUPPORT
 	rsvd_page_number = HALMAC_RSVD_PG_NUM32;

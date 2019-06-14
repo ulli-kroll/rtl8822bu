@@ -594,16 +594,6 @@ module_param_array(rtw_target_tx_pwr_5g_d, int, &rtw_target_tx_pwr_5g_d_num, 064
 MODULE_PARM_DESC(rtw_target_tx_pwr_5g_d, "5G target tx power (unit:dBm) of RF path D for each rate section, should match the real calibrate power, -1: undefined");
 #endif /* CONFIG_IEEE80211_BAND_5GHZ */
 
-#ifdef CONFIG_SUPPORT_TRX_SHARED
-#ifdef DFT_TRX_SHARE_MODE
-int rtw_trx_share_mode = DFT_TRX_SHARE_MODE;
-#else
-int rtw_trx_share_mode = 0;
-#endif
-module_param(rtw_trx_share_mode, int, 0644);
-MODULE_PARM_DESC(rtw_trx_share_mode, "TRx FIFO Shared");
-#endif
-
 int _netdev_open(struct net_device *pnetdev);
 int netdev_open(struct net_device *pnetdev);
 static int netdev_close(struct net_device *pnetdev);
@@ -976,10 +966,6 @@ uint loadparam(_adapter *padapter)
 #endif /*CONFIG_MCC_MODE */
 #ifdef CONFIG_DEFAULT_PATTERNS_EN
 	registry_par->default_patterns_en = rtw_support_default_patterns;
-#endif
-
-#ifdef CONFIG_SUPPORT_TRX_SHARED
-	registry_par->trx_share_mode = rtw_trx_share_mode;
 #endif
 
 #ifdef CONFIG_PCI_HCI

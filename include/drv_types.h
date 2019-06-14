@@ -399,9 +399,6 @@ struct registry_priv {
 #endif /* CONFIG_RTW_NAPI */
 
 	bool	default_patterns_en;
-#ifdef CONFIG_SUPPORT_TRX_SHARED
-	u8 trx_share_mode;
-#endif
 	u8 check_hw_status;
 
 	u32 pci_aspm_config;
