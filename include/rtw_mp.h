@@ -754,7 +754,6 @@ void	GetPowerTracking(PADAPTER padapter, u8 *enable);
 u32	mp_query_psd(PADAPTER pAdapter, u8 *data);
 void	rtw_mp_trigger_iqk(PADAPTER padapter);
 void	rtw_mp_trigger_lck(PADAPTER padapter);
-u8 rtw_mp_mode_check(PADAPTER padapter);
 
 
 void hal_mpt_SwitchRfSetting(PADAPTER pAdapter);

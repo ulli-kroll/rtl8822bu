@@ -685,17 +685,10 @@ void	rtw_hal_set_chnl_bw(_adapter *padapter, u8 channel, CHANNEL_WIDTH Bandwidth
 		RTW_ERR("%s, %d, IQK may race condition\n", __func__, __LINE__);
 	odm_release_spin_lock(pDM_Odm, RT_IQK_SPINLOCK);
 
-	/* MP mode channel don't use secondary channel */
-	if (rtw_mp_mode_check(padapter) == _FALSE) {
-		#if 0
-		if (cch_160 != 0)
-			cch_80 = rtw_get_scch_by_cch_offset(cch_160, CHANNEL_WIDTH_160, Offset80);
-		#endif
-		if (cch_80 != 0)
-			cch_40 = rtw_get_scch_by_cch_offset(cch_80, CHANNEL_WIDTH_80, Offset80);
-		if (cch_40 != 0)
-			cch_20 = rtw_get_scch_by_cch_offset(cch_40, CHANNEL_WIDTH_40, Offset40);
-	}
+	if (cch_80 != 0)
+		cch_40 = rtw_get_scch_by_cch_offset(cch_80, CHANNEL_WIDTH_80, Offset80);
+	if (cch_40 != 0)
+		cch_20 = rtw_get_scch_by_cch_offset(cch_40, CHANNEL_WIDTH_40, Offset40);
 
 	pHalData->cch_80 = cch_80;
 	pHalData->cch_40 = cch_40;
