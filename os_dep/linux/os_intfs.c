@@ -2118,11 +2118,6 @@ u8 rtw_init_drv_sw(_adapter *padapter)
 
 	/* _rtw_memset((u8 *)&padapter->qospriv, 0, sizeof (struct qos_priv)); */ /* move to mlme_priv */
 
-#ifdef CONFIG_MP_INCLUDED
-	if (init_mp_priv(padapter) == _FAIL)
-		RTW_INFO("%s: initialize MP private data Fail!\n", __func__);
-#endif
-
 	rtw_hal_dm_init(padapter);
 #ifdef CONFIG_SW_LED
 	rtw_hal_sw_led_init(padapter);
