@@ -261,7 +261,7 @@
 #define DISABLE_BB_RF	0
 
 #ifdef CONFIG_MP_INCLUDED
-	#define MP_DRIVER 1
+	#define MP_DRIVER 0
 	#define CONFIG_MP_IWPRIV_SUPPORT	1
 	/*
 	 #undef CONFIG_USB_TX_AGGREGATION

@@ -231,12 +231,6 @@ static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz, u8 bag
 	} else if ((pxmitframe->frame_tag & 0x0f) == TXAGG_FRAMETAG)
 		RTW_INFO("pxmitframe->frame_tag == TXAGG_FRAMETAG\n");
 
-#ifdef CONFIG_MP_INCLUDED
-	else if (((pxmitframe->frame_tag & 0x0f) == MP_FRAMETAG) &&
-		 (padapter->registrypriv.mp_mode == 1))
-
-		fill_txdesc_for_mp(padapter, ptxdesc);
-#endif
 
 	else {
 		RTW_INFO("pxmitframe->frame_tag = %d\n", pxmitframe->frame_tag);

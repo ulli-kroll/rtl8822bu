@@ -3678,12 +3678,6 @@ static void fill_default_txdesc(struct xmit_frame *pxmitframe, u8 *pbuf)
 #endif /* CONFIG_XMIT_ACK */
 	} else if (pxmitframe->frame_tag == TXAGG_FRAMETAG)
 		RTW_INFO("%s: TXAGG_FRAMETAG\n", __FUNCTION__);
-#ifdef CONFIG_MP_INCLUDED
-	else if (pxmitframe->frame_tag == MP_FRAMETAG) {
-		RTW_INFO("%s: MP_FRAMETAG\n", __FUNCTION__);
-		fill_txdesc_for_mp(adapter, pbuf);
-	}
-#endif
 	else {
 		RTW_INFO("%s: frame_tag=0x%x\n", __FUNCTION__, pxmitframe->frame_tag);
 
