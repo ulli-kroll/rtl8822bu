@@ -354,14 +354,6 @@ static int napi_recv(_adapter *padapter, int budget)
 
 		rx_ok = _FALSE;
 
-#ifdef CONFIG_RTW_GRO
-		if (pregistrypriv->en_gro) {
-			if (rtw_napi_gro_receive(&padapter->napi, pskb) != GRO_DROP)
-				rx_ok = _TRUE;
-			goto next;
-		}
-#endif /* CONFIG_RTW_GRO */
-
 		if (rtw_netif_receive_skb(padapter->pnetdev, pskb) == NET_RX_SUCCESS)
 			rx_ok = _TRUE;
 

@@ -123,17 +123,6 @@
 	#endif
 #endif
 
-#if defined(CONFIG_RTW_GRO) && (!defined(CONFIG_RTW_NAPI))
-
-	#error "Enable NAPI before enable GRO\n"
-
-#elif (LINUX_VERSION_CODE < KERNEL_VERSION(2,6,29) && defined(CONFIG_RTW_NAPI))
-
-	#error "Linux Kernel version too old (should newer than 2.6.29)\n"
-
-#endif
-
-
 typedef struct	semaphore _sema;
 typedef	spinlock_t	_lock;
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 37))

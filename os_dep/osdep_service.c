@@ -353,17 +353,6 @@ inline int _rtw_netif_receive_skb(_nic_hdl ndev, struct sk_buff *skb)
 #endif
 }
 
-#ifdef CONFIG_RTW_GRO
-inline gro_result_t _rtw_napi_gro_receive(struct napi_struct *napi, struct sk_buff *skb)
-{
-#if defined(PLATFORM_LINUX)
-	return napi_gro_receive(napi, skb);
-#else
-	rtw_warn_on(1);
-	return -1;
-#endif
-}
-#endif /* CONFIG_RTW_GRO */
 #endif /* CONFIG_RTW_NAPI */
 
 void _rtw_skb_queue_purge(struct sk_buff_head *list)
@@ -791,26 +780,6 @@ inline int dbg_rtw_netif_receive_skb(_nic_hdl ndev, struct sk_buff *skb, const e
 	return ret;
 }
 
-#ifdef CONFIG_RTW_GRO
-inline gro_result_t dbg_rtw_napi_gro_receive(struct napi_struct *napi, struct sk_buff *skb, const enum mstat_f flags, const char *func, int line)
-{
-	int ret;
-	unsigned int truesize = skb->truesize;
-
-	if (match_mstat_sniff_rules(flags, truesize))
-		RTW_INFO("DBG_MEM_ALLOC %s:%d %s, truesize=%u\n", func, line, __FUNCTION__, truesize);
-
-	ret = _rtw_napi_gro_receive(napi, skb);
-
-	rtw_mstat_update(
-		flags
-		, MSTAT_FREE
-		, truesize
-	);
-
-	return ret;
-}
-#endif /* CONFIG_RTW_GRO */
 #endif /* CONFIG_RTW_NAPI */
 
 inline void dbg_rtw_skb_queue_purge(struct sk_buff_head *list, enum mstat_f flags, const char *func, int line)

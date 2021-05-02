@@ -392,9 +392,6 @@ struct registry_priv {
 
 #ifdef CONFIG_RTW_NAPI
 	u8 en_napi;
-#ifdef CONFIG_RTW_GRO
-	u8 en_gro;
-#endif /* CONFIG_RTW_GRO */
 #endif /* CONFIG_RTW_NAPI */
 
 	bool	default_patterns_en;

@@ -632,12 +632,6 @@ module_param(rtw_mcc_guard_offset1, int, 0644);
 enable napi only = 1, disable napi = 0*/
 int rtw_en_napi = 1;
 module_param(rtw_en_napi, int, 0644);
-#ifdef CONFIG_RTW_GRO
-/*following setting should define GRO in Makefile
-enable gro = 1, disable gro = 0*/
-int rtw_en_gro = 1;
-module_param(rtw_en_gro, int, 0644);
-#endif /* CONFIG_RTW_GRO */
 #endif /* CONFIG_RTW_NAPI */
 
 #ifdef RTW_IQK_FW_OFFLOAD
@@ -966,13 +960,6 @@ uint loadparam(_adapter *padapter)
 
 #ifdef CONFIG_RTW_NAPI
 	registry_par->en_napi = (u8)rtw_en_napi;
-#ifdef CONFIG_RTW_GRO
-	registry_par->en_gro = (u8)rtw_en_gro;
-	if (!registry_par->en_napi && registry_par->en_gro) {
-		registry_par->en_gro = 0;
-		RTW_WARN("Disable GRO because NAPI is not enabled\n");
-	}
-#endif /* CONFIG_RTW_GRO */
 #endif /* CONFIG_RTW_NAPI */
 
 	registry_par->iqk_fw_offload = (u8)rtw_iqk_fw_offload;

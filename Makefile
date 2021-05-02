@@ -58,7 +58,6 @@ CONFIG_WIFI_MONITOR = n
 CONFIG_MCC_MODE = n
 CONFIG_APPEND_VENDOR_IE_ENABLE = n
 CONFIG_RTW_NAPI = y
-CONFIG_RTW_GRO = y
 ########################## Debug ###########################
 CONFIG_RTW_DEBUG = y
 # default log level is _DRV_INFO_ = 4,
@@ -336,10 +335,6 @@ endif
 
 ifeq ($(CONFIG_RTW_NAPI), y)
 EXTRA_CFLAGS += -DCONFIG_RTW_NAPI
-endif
-
-ifeq ($(CONFIG_RTW_GRO), y)
-EXTRA_CFLAGS += -DCONFIG_RTW_GRO
 endif
 
 ifeq ($(CONFIG_MP_VHT_HW_TX_MODE), y)
